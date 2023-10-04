@@ -1,9 +1,9 @@
-package me.fabrimat.uptimex.config;
+package me.fabrimat.dynmapsync.config;
 
-import me.fabrimat.uptimex.job.Job;
-import me.fabrimat.uptimex.job.JobScheduleInfo;
-import me.fabrimat.uptimex.job.command.Command;
-import me.fabrimat.uptimex.job.step.Step;
+import me.fabrimat.dynmapsync.job.Job;
+import me.fabrimat.dynmapsync.job.JobScheduleInfo;
+import me.fabrimat.dynmapsync.job.command.Command;
+import me.fabrimat.dynmapsync.job.step.Step;
 
 import java.io.IOException;
 import java.util.*;
