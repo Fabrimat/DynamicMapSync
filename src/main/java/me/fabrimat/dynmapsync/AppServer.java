@@ -1,6 +1,7 @@
 package me.fabrimat.dynmapsync;
 
 import me.fabrimat.dynmapsync.config.MainConfig;
+import me.fabrimat.dynmapsync.dynmap.DynmapManager;
 import me.fabrimat.dynmapsync.job.JobManager;
 import me.fabrimat.dynmapsync.job.command.CommandManager;
 import me.fabrimat.dynmapsync.scheduler.Scheduler;
@@ -35,6 +36,8 @@ public abstract class AppServer {
     public abstract Scheduler getScheduler();
     
     public abstract JobManager getJobManager();
+
+    public abstract DynmapManager getDynmapManager();
 
     public abstract MainConfig getMainConfig();
     

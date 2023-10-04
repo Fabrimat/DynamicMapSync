@@ -3,6 +3,7 @@ package me.fabrimat.dynmapsync;
 import jline.console.ConsoleReader;
 import me.fabrimat.dynmapsync.config.MainConfig;
 import me.fabrimat.dynmapsync.config.JobConfig;
+import me.fabrimat.dynmapsync.dynmap.DynmapManager;
 import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.JobManager;
 import me.fabrimat.dynmapsync.job.command.CommandManager;
@@ -24,6 +25,7 @@ public class DynmapSync extends AppServer {
     
     private final CommandManager commandManager;
     private final JobManager jobManager;
+    private final DynmapManager dynmapManager;
     private final Logger logger;
     private final Scheduler scheduler;
     private final JobConfig jobConfig;
@@ -44,6 +46,7 @@ public class DynmapSync extends AppServer {
         this.jobConfig = new JobConfig();
         this.commandManager = new CommandManager();
         this.jobManager = new JobManager();
+        this.dynmapManager = new DynmapManager();
         this.scheduler = new UptimeScheduler(getMainConfig().getThreadPoolSize());
     }
     
@@ -68,7 +71,9 @@ public class DynmapSync extends AppServer {
         getJobConfig().loadConfiguration();
         getCommandManager().registerCommand(new ExitCommand());
         getCommandManager().registerCommand(new LogCommand());
-        
+
+        getDynmapManager().initialize();
+
         setRunning(true);
 
         for (Job job : getJobConfig().getLoadedJobs()) {
@@ -143,6 +148,11 @@ public class DynmapSync extends AppServer {
     @Override
     public JobManager getJobManager() {
         return jobManager;
+    }
+
+    @Override
+    public DynmapManager getDynmapManager() {
+        return dynmapManager;
     }
     
     @Override

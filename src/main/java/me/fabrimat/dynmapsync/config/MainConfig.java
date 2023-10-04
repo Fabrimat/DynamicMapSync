@@ -5,8 +5,6 @@ import java.io.IOException;
 public final class MainConfig extends ConfigManager {
     
     private int threadPoolSize;
-    private int nestedJobsProtection;
-    private int urlTimeout;
     private DynmapConfigSection dynmapConfig;
     
     public void loadConfiguration() {
@@ -21,6 +19,7 @@ public final class MainConfig extends ConfigManager {
     protected void loadConfig(String fileName, ConfigurationProvider configurationProvider) throws IOException {
         super.loadConfig(fileName, configurationProvider);
         this.setThreadPoolSize(getConfiguration().getInt("thread-pool-size", 10));
+        this.dynmapConfig = new DynmapConfigSection(getConfiguration().getSection("dynmap"));
     }
     
     public int getThreadPoolSize() {
