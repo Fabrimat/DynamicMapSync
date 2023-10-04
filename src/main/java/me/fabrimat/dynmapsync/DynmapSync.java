@@ -2,6 +2,8 @@ package me.fabrimat.dynmapsync;
 
 import jline.console.ConsoleReader;
 import me.fabrimat.dynmapsync.config.MainConfig;
+import me.fabrimat.dynmapsync.config.JobConfig;
+import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.JobManager;
 import me.fabrimat.dynmapsync.job.command.CommandManager;
 import me.fabrimat.dynmapsync.job.command.commands.*;
@@ -24,6 +26,7 @@ public class DynmapSync extends AppServer {
     private final JobManager jobManager;
     private final Logger logger;
     private final Scheduler scheduler;
+    private final JobConfig jobConfig;
     private final MainConfig mainConfig;
     private final ReentrantLock shutdownLock = new ReentrantLock();
     private final ConsoleReader consoleReader;
@@ -38,6 +41,7 @@ public class DynmapSync extends AppServer {
         System.setOut(new PrintStream(new LoggingOutputStream(logger, Level.INFO), true));
     
         this.mainConfig = new MainConfig();
+        this.jobConfig = new JobConfig();
         this.commandManager = new CommandManager();
         this.jobManager = new JobManager();
         this.scheduler = new UptimeScheduler(getMainConfig().getThreadPoolSize());
@@ -61,10 +65,14 @@ public class DynmapSync extends AppServer {
     @Override
     public void start() {
         getMainConfig().loadConfiguration();
+        getJobConfig().loadConfiguration();
         getCommandManager().registerCommand(new ExitCommand());
         getCommandManager().registerCommand(new LogCommand());
         
         setRunning(true);
+
+        for (Job job : getJobConfig().getLoadedJobs()) {
+        }
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> independentThreadStop(false)));
     }
@@ -150,6 +158,10 @@ public class DynmapSync extends AppServer {
     @Override
     public CommandManager getCommandManager() {
         return this.commandManager;
+    }
+
+    public JobConfig getJobConfig() {
+        return jobConfig;
     }
 
     @Override
