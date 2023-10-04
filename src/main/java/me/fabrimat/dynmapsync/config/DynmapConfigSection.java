@@ -31,7 +31,7 @@ public class DynmapConfigSection {
         markerSyncTime = config.getInt("sync_time.markers", 3600);
         tileSyncTime = config.getInt("sync_time.tiles", 21600);
         try {
-            syncMode = SyncMode.valueOf(config.getString("sync_mode", "COPY").toUpperCase());
+            syncMode = SyncMode.valueOf(config.getString("sync_mode", "MOVE").toUpperCase());
         } catch (IllegalArgumentException e) {
             syncMode = SyncMode.COPY;
         }

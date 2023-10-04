@@ -5,7 +5,7 @@ dynmap:
     markers: 3600
     tiles: 21600
   # Sync mode: "COPY" | "MOVE"
-  sync_mode: "COPY"
+  sync_mode: "MOVE"
   world_name_rewrite:
     world1: "world"
     world2: "world"
