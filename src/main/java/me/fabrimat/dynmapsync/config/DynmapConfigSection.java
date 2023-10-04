@@ -28,7 +28,7 @@ public class DynmapConfigSection {
         try {
             syncMode = SyncMode.valueOf(config.getString("sync_mode", "MOVE").toUpperCase());
         } catch (IllegalArgumentException e) {
-            syncMode = SyncMode.COPY;
+            syncMode = SyncMode.MOVE;
         }
         worldRewrites = config.getSection("world_name_rewrite").getKeys().stream()
                 .collect(HashMap::new, (map, key) -> map.put(key, config.getSection("world_name_rewrite").getString(key)), HashMap::putAll);
