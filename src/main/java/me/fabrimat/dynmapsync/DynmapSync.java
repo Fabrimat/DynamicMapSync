@@ -8,7 +8,9 @@ import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.JobManager;
 import me.fabrimat.dynmapsync.job.command.CommandManager;
 import me.fabrimat.dynmapsync.job.command.commands.ExitCommand;
+import me.fabrimat.dynmapsync.job.command.commands.JobCommand;
 import me.fabrimat.dynmapsync.job.command.commands.LogCommand;
+import me.fabrimat.dynmapsync.job.command.commands.UrlCommand;
 import me.fabrimat.dynmapsync.log.DynmapSyncLogger;
 import me.fabrimat.dynmapsync.log.LoggingOutputStream;
 import me.fabrimat.dynmapsync.scheduler.Scheduler;
@@ -72,6 +74,8 @@ public class DynmapSync extends AppServer {
         getJobConfig().loadConfiguration();
         getCommandManager().registerCommand(new ExitCommand());
         getCommandManager().registerCommand(new LogCommand());
+        getCommandManager().registerCommand(new JobCommand());
+        getCommandManager().registerCommand(new UrlCommand());
 
         getDynmapManager().initialize();
 
