@@ -44,7 +44,7 @@ public class CommandManager {
         return this.getCommands().get(commandName);
     }
     
-    public boolean executeCommand(Job job, Step step, Command command) throws CommandException {
+    public boolean executeCommand(Job job, Step step, Command command) throws Exception {
         if (command != null) {
             CommandExecutor executor = this.getCommandExecutor(command.getCommandName());
             if (executor != null) {
@@ -65,7 +65,7 @@ public class CommandManager {
                 boolean success;
                 try {
                     success = executeCommand(null, null, command);
-                } catch (CommandException ignored) {
+                } catch (Exception ignored) {
                     success = false;
                 }
                 AppServer.getInstance().getLogger().info("Success: " + success);

@@ -25,14 +25,14 @@ public class Step {
         
         try {
             success = commandManager.executeCommand(getJob(), this, getCommand());
-        } catch (CommandException ex) {
+        } catch (Exception ex) {
             success = false;
         }
         
         if (!success) {
             try {
                 commandManager.executeCommand(getJob(), this, getFallbackCommand());
-            } catch (CommandException ignored) {
+            } catch (Exception ignored) {
             }
         }
         
