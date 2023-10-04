@@ -13,9 +13,6 @@ import java.util.Map;
 public class DynmapConfigSection {
     private final Configuration config;
 
-    private int playerSyncTime;
-    private int markerSyncTime;
-    private int tileSyncTime;
     private SyncMode syncMode;
     private Map<String, String> worldRewrites;
     private Map<String, SourceMap> sourceMaps = new HashMap<>();
@@ -24,12 +21,10 @@ public class DynmapConfigSection {
 
     DynmapConfigSection(Configuration config) {
       this.config = config;
+      loadConfig();
     }
 
     private void loadConfig() {
-        playerSyncTime = config.getInt("sync_time.players", 2);
-        markerSyncTime = config.getInt("sync_time.markers", 3600);
-        tileSyncTime = config.getInt("sync_time.tiles", 21600);
         try {
             syncMode = SyncMode.valueOf(config.getString("sync_mode", "MOVE").toUpperCase());
         } catch (IllegalArgumentException e) {
@@ -46,18 +41,6 @@ public class DynmapConfigSection {
         priority = config.getStringList("priority");
         destinationPath = Paths.get(config.getString("destination_path"));
         Preconditions.checkNotNull(destinationPath, "Destination path cannot be null");
-    }
-
-    public int getPlayerSyncTime() {
-        return playerSyncTime;
-    }
-
-    public int getMarkerSyncTime() {
-        return markerSyncTime;
-    }
-
-    public int getTileSyncTime() {
-        return tileSyncTime;
     }
 
     public SyncMode getSyncMode() {

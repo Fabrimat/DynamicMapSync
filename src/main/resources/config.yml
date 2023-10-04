@@ -1,9 +1,5 @@
 thread-pool-size: 5
 dynmap:
-  sync_time:
-    players: 2
-    markers: 3600
-    tiles: 21600
   # Sync mode: "COPY" | "MOVE"
   sync_mode: "MOVE"
   world_name_rewrite:
