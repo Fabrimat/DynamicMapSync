@@ -77,6 +77,7 @@ public class DynmapSync extends AppServer {
         setRunning(true);
 
         for (Job job : getJobConfig().getLoadedJobs()) {
+            getJobManager().registerJob(job);
         }
         
         Runtime.getRuntime().addShutdownHook(new Thread(() -> independentThreadStop(false)));
