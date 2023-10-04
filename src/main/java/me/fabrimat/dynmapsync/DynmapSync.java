@@ -62,6 +62,7 @@ public class DynmapSync extends AppServer {
     public void start() {
         getMainConfig().loadConfiguration();
         getCommandManager().registerCommand(new ExitCommand());
+        getCommandManager().registerCommand(new LogCommand());
         
         setRunning(true);
         
