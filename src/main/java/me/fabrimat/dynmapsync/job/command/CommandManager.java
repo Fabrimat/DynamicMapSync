@@ -3,7 +3,6 @@ package me.fabrimat.dynmapsync.job.command;
 import me.fabrimat.dynmapsync.AppServer;
 import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.command.exceptions.CommandAlreadyRegisteredException;
-import me.fabrimat.dynmapsync.job.command.exceptions.CommandException;
 import me.fabrimat.dynmapsync.job.command.exceptions.CommandNotRegisteredException;
 import me.fabrimat.dynmapsync.job.step.Step;
 
@@ -12,13 +11,13 @@ import java.util.Locale;
 import java.util.Map;
 
 public class CommandManager {
-    
+
     private final Map<String, CommandExecutor> commands;
-    
+
     public CommandManager() {
         commands = new HashMap<>();
     }
-    
+
     public void registerCommand(CommandExecutor commandExecutor) {
         String commandName = commandExecutor.getCommand().toUpperCase(Locale.ROOT);
         if (!getCommands().containsKey(commandName)) {
@@ -28,7 +27,7 @@ public class CommandManager {
             throw new CommandAlreadyRegisteredException("Command " + commandName + " already registered.");
         }
     }
-    
+
     public void unregisterCommand(String commandName) {
         commandName = commandName.toUpperCase(Locale.ROOT);
         if (getCommands().containsKey(commandName)) {
@@ -38,12 +37,12 @@ public class CommandManager {
             throw new CommandNotRegisteredException("Command " + commandName + " is not registered.");
         }
     }
-    
+
     public CommandExecutor getCommandExecutor(String commandName) {
         commandName = commandName.toUpperCase(Locale.ROOT);
         return this.getCommands().get(commandName);
     }
-    
+
     public boolean executeCommand(Job job, Step step, Command command) throws Exception {
         if (command != null) {
             CommandExecutor executor = this.getCommandExecutor(command.getCommandName());
@@ -55,7 +54,7 @@ public class CommandManager {
         }
         return false;
     }
-    
+
     public boolean dispatchCommand(Command command) {
         if (command != null) {
             if (this.getCommandExecutor(command.getCommandName()) == null) {
@@ -74,7 +73,7 @@ public class CommandManager {
         }
         return false;
     }
-    
+
     protected Map<String, CommandExecutor> getCommands() {
         return commands;
     }

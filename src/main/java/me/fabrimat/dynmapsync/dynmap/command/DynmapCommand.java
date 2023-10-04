@@ -39,7 +39,7 @@ public class DynmapCommand implements CommandExecutor {
                     return false;
             }
         }
-            return true;
+        return true;
     }
 
     private void syncPlayers() throws IOException {

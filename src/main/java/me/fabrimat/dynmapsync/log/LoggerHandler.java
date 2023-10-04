@@ -8,13 +8,13 @@ import java.util.logging.Handler;
 import java.util.logging.LogRecord;
 
 public class LoggerHandler extends Handler {
-    
+
     private final ConsoleReader console;
-    
+
     public LoggerHandler(ConsoleReader console) {
         this.console = console;
     }
-    
+
     @Override
     public void publish(LogRecord record) {
         if (isLoggable(record)) {
@@ -29,8 +29,8 @@ public class LoggerHandler extends Handler {
             }
         }
     }
-    
-    
+
+
     @Override
     public void flush() {
         try {
@@ -38,10 +38,10 @@ public class LoggerHandler extends Handler {
         } catch (IOException ignored) {
         }
     }
-    
-    
+
+
     @Override
     public void close() throws SecurityException {
     }
-    
+
 }

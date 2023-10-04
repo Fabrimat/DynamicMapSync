@@ -3,7 +3,6 @@ package me.fabrimat.dynmapsync.dynmap;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapWorld;
 
 import java.io.File;

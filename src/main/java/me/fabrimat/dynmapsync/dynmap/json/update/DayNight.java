@@ -2,7 +2,7 @@ package me.fabrimat.dynmapsync.dynmap.json.update;
 
 import com.google.gson.annotations.SerializedName;
 
-public class DayNight extends Update{
+public class DayNight extends Update {
     public final String type = "daynight";
 
     @SerializedName("isday")

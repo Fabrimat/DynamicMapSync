@@ -1,6 +1,6 @@
 package me.fabrimat.dynmapsync.dynmap.json.update;
 
-public class Tile extends Update{
+public class Tile extends Update {
     public final String type = "tile";
     private String name;
 

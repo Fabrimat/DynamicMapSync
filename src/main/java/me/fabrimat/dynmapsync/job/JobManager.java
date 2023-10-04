@@ -12,13 +12,13 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class JobManager {
-    
+
     private final Map<String, Job> registeredJobs;
-    
+
     public JobManager() {
         this.registeredJobs = new HashMap<>();
     }
-    
+
     public void registerJob(Job job) {
         if (!getRegisteredJobs().containsKey(job.getJobName())) {
             getRegisteredJobs().put(job.getJobName(), job);
@@ -27,7 +27,7 @@ public class JobManager {
             throw new JobAlreadyRegisteredException("Job " + job.getJobName() + " already registered.");
         }
     }
-    
+
     public void unregisterJob(String jobName) {
         Job job = getJob(jobName);
         if (job != null) {
@@ -37,24 +37,24 @@ public class JobManager {
             throw new JobNotRegisteredException("Job " + jobName + " not registered.");
         }
     }
-    
+
     public void unregisterAllJobs() {
         for (Job job : getRegisteredJobs().values()) {
             unregisterJob(job.getJobName());
         }
     }
-    
+
     private void scheduleJob(Job job) {
         if (job.getScheduleInfo() == null) {
             return;
         }
-        
+
         Long delay = job.getScheduleInfo().getDelay();
         Long period = job.getScheduleInfo().getPeriod();
         TimeUnit unit = job.getScheduleInfo().getUnit();
-        
+
         Scheduler scheduler = AppServer.getInstance().getScheduler();
-        
+
         ScheduledTask scheduledTask = null;
         if (delay != null && period != null) {
             scheduledTask = scheduler.scheduleTask(job, delay, period, unit);
@@ -65,25 +65,25 @@ public class JobManager {
         } else {
             scheduler.runTask(job);
         }
-        
+
         job.getScheduleInfo().setScheduledTask(scheduledTask);
     }
-    
+
     private void cancelJob(Job job) {
         if (job.getScheduleInfo() != null) {
             job.getScheduleInfo().getScheduledTask().cancel();
             job.getScheduleInfo().setScheduledTask(null);
         }
     }
-    
+
     public Job getJob(String jobName) {
         return getRegisteredJobs().get(jobName);
     }
-    
+
     public List<Job> getJobs() {
         return this.getRegisteredJobs().values().stream().toList();
     }
-    
+
     protected Map<String, Job> getRegisteredJobs() {
         return registeredJobs;
     }

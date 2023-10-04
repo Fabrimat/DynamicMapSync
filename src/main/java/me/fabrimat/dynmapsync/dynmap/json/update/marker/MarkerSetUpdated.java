@@ -8,10 +8,10 @@ public class MarkerSetUpdated extends MarkerComponentMessage {
     public String label;
     @SerializedName("layerprio")
     public int layerPriority;
+    @SerializedName("showlabels")
+    public Boolean showLabels;
     @SerializedName("minzoom")
     private int minZoom;
     @SerializedName("maxzoom")
     private int maxZoom;
-    @SerializedName("showlabels")
-    public Boolean showLabels;
 }

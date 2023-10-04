@@ -6,24 +6,24 @@ import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class UptimeScheduler implements Scheduler {
-    
+
     private final AtomicInteger taskCounter = new AtomicInteger();
     private final ScheduledExecutorService service;
     private final Map<Integer, ScheduledTask> scheduledTasks = new ConcurrentHashMap<>();
-    
+
     public UptimeScheduler(int threadPoolSize) {
         service = Executors.newScheduledThreadPool(threadPoolSize, new UptimeThreadFactory());
     }
-    
+
     public ScheduledExecutorService getExecutorService() {
         return service;
     }
-    
+
     @Override
     public ScheduledTask runTask(Runnable task) {
         return this.scheduleTask(task, 0, TimeUnit.MILLISECONDS);
     }
-    
+
     @Override
     public ScheduledTask scheduleTask(Runnable task, long delay, TimeUnit unit) {
         int id = getTaskCounter().getAndIncrement();
@@ -33,7 +33,7 @@ public class UptimeScheduler implements Scheduler {
         getScheduledTasks().put(id, scheduledTask);
         return scheduledTask;
     }
-    
+
     @Override
     public ScheduledTask scheduleTask(Runnable task, long delay, long period, TimeUnit unit) {
         int id = getTaskCounter().getAndIncrement();
@@ -43,7 +43,7 @@ public class UptimeScheduler implements Scheduler {
         getScheduledTasks().put(id, scheduledTask);
         return scheduledTask;
     }
-    
+
     @Override
     public void cancel(int id) {
         ScheduledTask task = getScheduledTasks().get(id);
@@ -52,26 +52,26 @@ public class UptimeScheduler implements Scheduler {
             getScheduledTasks().remove(id);
         }
     }
-    
+
     private Map<Integer, ScheduledTask> getScheduledTasks() {
         return scheduledTasks;
     }
-    
+
     public List<ScheduledTask> getActiveScheduledTasks() {
         return getScheduledTasks().values().stream().toList();
     }
-    
+
     private AtomicInteger getTaskCounter() {
         return this.taskCounter;
     }
-    
+
     @Override
     public boolean cancelAll(long wait, TimeUnit unit) {
         for (ScheduledTask scheduledTask : getScheduledTasks().values()) {
             scheduledTask.cancel();
         }
         getScheduledTasks().clear();
-        
+
         getExecutorService().shutdown();
         try {
             return getExecutorService().awaitTermination(wait, unit);
@@ -79,7 +79,7 @@ public class UptimeScheduler implements Scheduler {
             return false;
         }
     }
-    
+
     @Override
     public void cancelAllNow() {
         getExecutorService().shutdownNow();

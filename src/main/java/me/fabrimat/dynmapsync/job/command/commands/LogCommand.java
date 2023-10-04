@@ -11,7 +11,7 @@ public class LogCommand implements CommandExecutor {
         AppServer.getInstance().getLogger().info(String.join(" ", args));
         return true;
     }
-    
+
     @Override
     public String getCommand() {
         return "LOG";

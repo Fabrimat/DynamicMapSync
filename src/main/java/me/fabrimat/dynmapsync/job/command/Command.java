@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Command {
     private final String commandName;
     private final String[] args;
-    
+
     public Command(String command) {
         if (command != null) {
             String[] commandSplit = command.split(" ");
@@ -20,11 +20,11 @@ public class Command {
             args = null;
         }
     }
-    
+
     public String getCommandName() {
         return this.commandName;
     }
-    
+
     public String[] getArgs() {
         return this.args;
     }

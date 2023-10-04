@@ -15,13 +15,13 @@ public class DynmapConfigSection {
 
     private SyncMode syncMode;
     private Map<String, String> worldRewrites;
-    private Map<String, SourceMap> sourceMaps = new HashMap<>();
+    private final Map<String, SourceMap> sourceMaps = new HashMap<>();
     private List<String> priority = new ArrayList<>();
     private Path destinationPath;
 
     DynmapConfigSection(Configuration config) {
-      this.config = config;
-      loadConfig();
+        this.config = config;
+        loadConfig();
     }
 
     private void loadConfig() {
@@ -64,6 +64,6 @@ public class DynmapConfigSection {
     }
 
     public enum SyncMode {
-        COPY, MOVE;
+        COPY, MOVE
     }
 }

@@ -12,7 +12,7 @@ public class ExitCommand implements CommandExecutor {
         AppServer.getInstance().stop();
         return true;
     }
-    
+
     @Override
     public String getCommand() {
         return "EXIT";
