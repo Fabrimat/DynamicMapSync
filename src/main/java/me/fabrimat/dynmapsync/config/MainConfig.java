@@ -1,6 +1,9 @@
 package me.fabrimat.dynmapsync.config;
 
+import me.fabrimat.dynmapsync.DynmapSync;
+
 import java.io.IOException;
+import java.util.logging.Level;
 
 public final class MainConfig extends ConfigManager {
 
@@ -11,7 +14,7 @@ public final class MainConfig extends ConfigManager {
         try {
             loadConfig("config.yml", ConfigurationProvider.getProvider(YamlConfiguration.class));
         } catch (IOException e) {
-            e.printStackTrace();
+            DynmapSync.getInstance().getLogger().log(Level.SEVERE, "Error loading config.yml", e);
         }
     }
 

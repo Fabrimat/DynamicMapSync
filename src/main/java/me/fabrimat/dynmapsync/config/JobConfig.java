@@ -1,5 +1,6 @@
 package me.fabrimat.dynmapsync.config;
 
+import me.fabrimat.dynmapsync.DynmapSync;
 import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.JobScheduleInfo;
 import me.fabrimat.dynmapsync.job.command.Command;
@@ -8,6 +9,7 @@ import me.fabrimat.dynmapsync.job.step.Step;
 import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public final class JobConfig extends ConfigManager {
 
@@ -21,7 +23,7 @@ public final class JobConfig extends ConfigManager {
         try {
             loadConfig("jobs.yml", ConfigurationProvider.getProvider(YamlConfiguration.class));
         } catch (IOException e) {
-            e.printStackTrace();
+            DynmapSync.getInstance().getLogger().log(Level.SEVERE, "Error loading jobs.yml", e);
         }
     }
 
