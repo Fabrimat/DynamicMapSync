@@ -9,14 +9,13 @@ import me.fabrimat.dynmapsync.dynmap.json.DynmapPlayer;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapWorld;
 import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.command.CommandExecutor;
-import me.fabrimat.dynmapsync.job.command.exceptions.CommandException;
 import me.fabrimat.dynmapsync.job.step.Step;
 
 import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class PlayerSyncCommand implements CommandExecutor {
+public class DynmapCommand implements CommandExecutor {
     @Override
     public boolean execute(Job job, Step step, String[] args) throws IOException {
         if (args != null && args.length > 0) {
