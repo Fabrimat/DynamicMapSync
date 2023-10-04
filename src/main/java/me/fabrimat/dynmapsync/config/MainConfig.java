@@ -7,6 +7,7 @@ public final class MainConfig extends ConfigManager {
     private int threadPoolSize;
     private int nestedJobsProtection;
     private int urlTimeout;
+    private DynmapConfigSection dynmapConfig;
     
     public void loadConfiguration() {
         try {
@@ -29,6 +30,10 @@ public final class MainConfig extends ConfigManager {
     private void setThreadPoolSize(int threadPoolSize) {
         this.threadPoolSize = threadPoolSize;
     }
-    
+
+    public DynmapConfigSection getDynmapConfig() {
+        return dynmapConfig;
+    }
+
 
 }
