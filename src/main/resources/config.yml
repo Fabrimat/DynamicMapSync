@@ -1,0 +1,29 @@
+thread-pool-size: 5
+dynmap:
+  sync_time:
+    players: 2
+    markers: 3600
+    tiles: 21600
+  # Sync mode: "COPY" | "MOVE"
+  sync_mode: "COPY"
+  world_name_rewrite:
+    world1: "world"
+    world2: "world"
+    world3: "world"
+  source_maps:
+    server1:
+      path: "/path/to/dynmap/web"
+      sync_players: true
+      sync_markers: true
+      sync_tiles: true
+      sync_daytime: true
+    server2:
+      path: "/path/to/dynmap/web"
+      sync_players: true
+      sync_markers: true
+      sync_tiles: true
+      sync_daytime: false
+  priority:
+    - server1
+    - server2
+  destination: "/path/to/destination/dynmap/web"
