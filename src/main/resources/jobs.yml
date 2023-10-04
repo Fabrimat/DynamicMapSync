@@ -1,20 +1,9 @@
 jobs:
-    "Phin Test 1":
+    "Player Sync":
         schedule:
-            delay: 300
-            period: 300
+            delay: 2
+            period: 2
         steps:
             '1':
-                command: "LOG Starting Phin Test 1 job"
-            '2':
-                conditional: false
-                command: "URL https://phin.fabrimat.me/"
-                command-fallback: "LOG Phin web server is not online"
-            '3':
-                conditional: true
-                command: "URL https://panel.fabrimat.me/"
-                command-fallback: "LOG Phin panel is not online"
-            '4':
-                conditional: true
-                command: "LOG Phin is online"
-
+                command: "DYNMAP SYNC PLAYERS"
+                command-fallback: "LOG Failed to sync players"
