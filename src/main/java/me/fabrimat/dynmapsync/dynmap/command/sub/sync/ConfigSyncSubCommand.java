@@ -16,6 +16,8 @@ import me.fabrimat.dynmapsync.job.command.CommandExecutor;
 import me.fabrimat.dynmapsync.job.step.Step;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +54,18 @@ public class ConfigSyncSubCommand implements SubCommand {
                 }
             }
         }
+
+        for (Map.Entry<String, SourceMap> entry : sourceMaps.entrySet()) {
+            SourceMap sourceMap = entry.getValue();
+            DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.CONFIG, null);
+            if (sourceJson.getFile().exists()) {
+                copyValues(sourceJson, destinationJson);
+            }
+        }
+        destinationJson.writeFile();
+        dynmapManager.setTimestamp("configSync", Timestamp.from(Instant.now()));
+        dynmapManager.getConfigFileLock().unlock();
+
         return true;
     }
 
