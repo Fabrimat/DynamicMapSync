@@ -17,6 +17,23 @@ public class MarkerUpdated extends MarkerComponentMessage {
     @SerializedName("maxzoom")
     private int maxZoom;
 
+    public MarkerUpdated(long timestamp, String msg, double x, double y, double z, String id, String label, String icon, String set, boolean markup, String desc, String dim, int minZoom, int maxZoom) {
+        super(timestamp);
+        this.msg = msg;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.id = id;
+        this.label = label;
+        this.icon = icon;
+        this.set = set;
+        this.markup = markup;
+        this.desc = desc;
+        this.dim = dim;
+        this.minZoom = minZoom;
+        this.maxZoom = maxZoom;
+    }
+
     public String getMsg() {
         return msg;
     }

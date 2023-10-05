@@ -8,6 +8,15 @@ public class ChatMessage extends Update {
     private String account;
     private String channel;
 
+    public ChatMessage(long timestamp, String source, String playerName, String message, String account, String channel) {
+        super(timestamp);
+        this.source = source;
+        this.playerName = playerName;
+        this.message = message;
+        this.account = account;
+        this.channel = channel;
+    }
+
     public String getSource() {
         return source;
     }

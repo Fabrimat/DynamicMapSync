@@ -8,6 +8,11 @@ public class DayNight extends Update {
     @SerializedName("isday")
     private boolean isDay;
 
+    public DayNight(long timestamp, boolean isDay) {
+        super(timestamp);
+        this.isDay = isDay;
+    }
+
     public boolean isDay() {
         return isDay;
     }

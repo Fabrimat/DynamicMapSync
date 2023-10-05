@@ -5,6 +5,11 @@ public class PlayerJoinMessage extends Update {
     public String playerName;
     public String account;
 
+    public PlayerJoinMessage(long timestamp, String playerName) {
+        super(timestamp);
+        this.playerName = playerName;
+    }
+
     public String getPlayerName() {
         return playerName;
     }

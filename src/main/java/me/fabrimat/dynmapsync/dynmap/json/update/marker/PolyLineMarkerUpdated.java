@@ -20,6 +20,24 @@ public class PolyLineMarkerUpdated extends MarkerComponentMessage {
     private int maxZoom;
     private boolean markup;
 
+    public PolyLineMarkerUpdated(long timestamp, String msg, double[] x, double[] y, double[] z, int weight, double opacity, String color, String id, String label, String set, String desc, int minZoom, int maxZoom, boolean markup) {
+        super(timestamp);
+        this.msg = msg;
+        this.x = x;
+        this.y = y;
+        this.z = z;
+        this.weight = weight;
+        this.opacity = opacity;
+        this.color = color;
+        this.id = id;
+        this.label = label;
+        this.set = set;
+        this.desc = desc;
+        this.minZoom = minZoom;
+        this.maxZoom = maxZoom;
+        this.markup = markup;
+    }
+
     public String getMsg() {
         return msg;
     }

@@ -27,6 +27,27 @@ public class AreaMarkerUpdated extends MarkerComponentMessage {
     private int maxZoom;
     private boolean markup;
 
+    public AreaMarkerUpdated(long timestamp, String msg, double yTop, double yBottom, double[] x, double[] z, int weight, double opacity, String color, double fillOpacity, String fillColor, String id, String label, String set, String desc, int minZoom, int maxZoom, boolean markup) {
+        super(timestamp);
+        this.msg = msg;
+        this.yTop = yTop;
+        this.yBottom = yBottom;
+        this.x = x;
+        this.z = z;
+        this.weight = weight;
+        this.opacity = opacity;
+        this.color = color;
+        this.fillOpacity = fillOpacity;
+        this.fillColor = fillColor;
+        this.id = id;
+        this.label = label;
+        this.set = set;
+        this.desc = desc;
+        this.minZoom = minZoom;
+        this.maxZoom = maxZoom;
+        this.markup = markup;
+    }
+
     public String getMsg() {
         return msg;
     }
