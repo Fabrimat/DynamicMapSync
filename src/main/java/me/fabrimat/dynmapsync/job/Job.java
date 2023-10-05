@@ -25,7 +25,7 @@ public class Job implements Runnable {
         boolean success = true;
 
         for (Step step : getStepListCopy()) {
-            if (!step.isConditional() || success) {
+            if (!step.conditional() || success) {
                 success = step.execute();
             } else {
                 break;
