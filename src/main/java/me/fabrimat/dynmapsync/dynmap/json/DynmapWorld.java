@@ -15,6 +15,20 @@ public class DynmapWorld implements DynmapFile {
     private long configHash;
     private Update[] updates = {};
 
+    public DynmapWorld(int currentCount, boolean hasStorm, DynmapPlayer[] players, boolean isThundering, long serverTime, long configHash, Update[] updates) {
+        this.currentCount = currentCount;
+        this.hasStorm = hasStorm;
+        this.players = players;
+        this.isThundering = isThundering;
+        this.serverTime = serverTime;
+        this.configHash = configHash;
+        this.updates = updates;
+    }
+
+    public DynmapWorld() {
+
+    }
+
     public int getCurrentCount() {
         return currentCount;
     }

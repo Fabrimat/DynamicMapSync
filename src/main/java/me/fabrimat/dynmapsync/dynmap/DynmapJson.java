@@ -3,8 +3,13 @@ package me.fabrimat.dynmapsync.dynmap;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import me.fabrimat.dynmapsync.dynmap.json.DynmapConfig;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapFile;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapWorld;
+import me.fabrimat.dynmapsync.dynmap.json.update.ComponentMessage;
+import me.fabrimat.dynmapsync.dynmap.json.update.ComponentMessageAdapter;
+import me.fabrimat.dynmapsync.dynmap.json.update.Update;
+import me.fabrimat.dynmapsync.dynmap.json.update.UpdateTypeAdapter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -48,13 +53,17 @@ public final class DynmapJson {
             case MARKERS:
                 break;
             case CONFIG:
+                clazz = DynmapConfig.class;
                 break;
             case WORLD:
                 clazz = DynmapWorld.class;
                 break;
         }
 
-        Gson gson = new GsonBuilder().create();
+        Gson gson = new GsonBuilder()
+                .registerTypeAdapter(Update.class, new UpdateTypeAdapter<>())
+                .registerTypeAdapter(ComponentMessage.class, new ComponentMessageAdapter<>())
+                .create();
         this.dynmapFile = gson.fromJson(Files.newBufferedReader(file.toPath(), Charset.defaultCharset()), clazz);
     }
 
@@ -66,6 +75,7 @@ public final class DynmapJson {
                 case MARKERS:
                     break;
                 case CONFIG:
+                    dynmapFile = new DynmapConfig();
                     break;
                 case WORLD:
                     dynmapFile = new DynmapWorld();
