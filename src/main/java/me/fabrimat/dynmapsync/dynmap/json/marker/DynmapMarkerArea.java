@@ -33,4 +33,5 @@ public class DynmapMarkerArea {
     private String greetingSub;
     @SerializedName("farewellsub")
     private String farewellSub;
+    private int weight;
 }

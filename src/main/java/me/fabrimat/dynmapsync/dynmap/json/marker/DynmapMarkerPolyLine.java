@@ -20,4 +20,5 @@ public class DynmapMarkerPolyLine {
     @SerializedName("maxzoom")
     private String maxZoom;
     private String world;
+    private int weight;
 }

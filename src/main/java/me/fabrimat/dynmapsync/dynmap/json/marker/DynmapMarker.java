@@ -15,4 +15,5 @@ public class DynmapMarker {
     private double y;
     private double z;
     private String world;
+    private int weight;
 }

@@ -34,4 +34,5 @@ public class DynmapMarkerCircle {
     private String greetingSub;
     @SerializedName("farewellsub")
     private String farewellSub;
+    private int weight;
 }
