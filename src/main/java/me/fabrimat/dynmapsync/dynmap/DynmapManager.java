@@ -4,7 +4,10 @@ import me.fabrimat.dynmapsync.DynmapSync;
 import me.fabrimat.dynmapsync.dynmap.command.DynmapCommand;
 import me.fabrimat.dynmapsync.job.command.CommandManager;
 
+import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -15,6 +18,8 @@ public class DynmapManager {
     ReentrantLock configFileLock = new ReentrantLock();
 
     Set<String> worlds = new HashSet<>();
+
+    Map<String, Timestamp> timestamps = new HashMap<>();
 
     public void initialize() {
         DynmapSync dynmapSync = DynmapSync.getInstance();
@@ -37,5 +42,13 @@ public class DynmapManager {
 
     public Set<String> getWorlds() {
         return worlds;
+    }
+
+    public void setTimestamp(String key, Timestamp timestamp) {
+        timestamps.put(key, timestamp);
+    }
+
+    public Timestamp getTimestamp(String key) {
+        return timestamps.get(key);
     }
 }

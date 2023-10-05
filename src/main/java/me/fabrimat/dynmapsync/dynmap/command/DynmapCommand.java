@@ -14,6 +14,8 @@ import me.fabrimat.dynmapsync.job.command.CommandExecutor;
 import me.fabrimat.dynmapsync.job.step.Step;
 
 import java.io.IOException;
+import java.sql.Timestamp;
+import java.time.Instant;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
@@ -101,6 +103,7 @@ public class DynmapCommand implements CommandExecutor {
             ((DynmapWorld) dynmapJson.getDynmapFile()).setPlayers(players.toArray(new DynmapPlayer[0]));
             dynmapJson.writeFile();
         }
+        dynmapManager.setTimestamp("playerSync", Timestamp.from(Instant.now()));
         dynmapManager.getWorldFileLock().unlock();
     }
 
