@@ -3,7 +3,7 @@ package me.fabrimat.dynmapsync.dynmap.json;
 import com.google.gson.annotations.SerializedName;
 import me.fabrimat.dynmapsync.dynmap.json.update.Update;
 
-public class DynmapWorld {
+public class DynmapWorld implements DynmapFile {
     @SerializedName("currentcount")
     private int currentCount;
     private boolean hasStorm;
