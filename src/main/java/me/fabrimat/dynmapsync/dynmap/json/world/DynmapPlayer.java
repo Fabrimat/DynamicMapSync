@@ -1,4 +1,4 @@
-package me.fabrimat.dynmapsync.dynmap.json;
+package me.fabrimat.dynmapsync.dynmap.json.world;
 
 public class DynmapPlayer {
     private String world;

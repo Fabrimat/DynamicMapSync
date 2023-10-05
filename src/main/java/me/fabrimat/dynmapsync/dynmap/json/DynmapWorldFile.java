@@ -1,9 +1,10 @@
 package me.fabrimat.dynmapsync.dynmap.json;
 
 import com.google.gson.annotations.SerializedName;
-import me.fabrimat.dynmapsync.dynmap.json.update.Update;
+import me.fabrimat.dynmapsync.dynmap.json.world.DynmapPlayer;
+import me.fabrimat.dynmapsync.dynmap.json.world.update.Update;
 
-public class DynmapWorld implements DynmapFile {
+public class DynmapWorldFile implements DynmapFile {
     @SerializedName("currentcount")
     private int currentCount;
     private boolean hasStorm;
@@ -15,7 +16,7 @@ public class DynmapWorld implements DynmapFile {
     private long configHash;
     private Update[] updates = {};
 
-    public DynmapWorld(int currentCount, boolean hasStorm, DynmapPlayer[] players, boolean isThundering, long serverTime, long configHash, Update[] updates) {
+    public DynmapWorldFile(int currentCount, boolean hasStorm, DynmapPlayer[] players, boolean isThundering, long serverTime, long configHash, Update[] updates) {
         this.currentCount = currentCount;
         this.hasStorm = hasStorm;
         this.players = players;
@@ -25,7 +26,7 @@ public class DynmapWorld implements DynmapFile {
         this.updates = updates;
     }
 
-    public DynmapWorld() {
+    public DynmapWorldFile() {
 
     }
 

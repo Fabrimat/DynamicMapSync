@@ -1,37 +1,41 @@
-package me.fabrimat.dynmapsync.dynmap.json.update.marker;
+package me.fabrimat.dynmapsync.dynmap.json.world.update.marker;
 
 import com.google.gson.annotations.SerializedName;
 
-public class MarkerUpdated extends MarkerComponentMessage {
+public class PolyLineMarkerUpdated extends MarkerComponentMessage {
     private String msg;
-    private double x, y, z;
+    private double[] x;
+    private double[] y;
+    private double[] z;
+    private int weight;
+    private double opacity;
+    private String color;
     private String id;
     private String label;
-    private String icon;
     private String set;
-    private boolean markup;
     private String desc;
-    private String dim;
     @SerializedName("minzoom")
     private int minZoom;
     @SerializedName("maxzoom")
     private int maxZoom;
+    private boolean markup;
 
-    public MarkerUpdated(long timestamp, String msg, double x, double y, double z, String id, String label, String icon, String set, boolean markup, String desc, String dim, int minZoom, int maxZoom) {
+    public PolyLineMarkerUpdated(long timestamp, String msg, double[] x, double[] y, double[] z, int weight, double opacity, String color, String id, String label, String set, String desc, int minZoom, int maxZoom, boolean markup) {
         super(timestamp);
         this.msg = msg;
         this.x = x;
         this.y = y;
         this.z = z;
+        this.weight = weight;
+        this.opacity = opacity;
+        this.color = color;
         this.id = id;
         this.label = label;
-        this.icon = icon;
         this.set = set;
-        this.markup = markup;
         this.desc = desc;
-        this.dim = dim;
         this.minZoom = minZoom;
         this.maxZoom = maxZoom;
+        this.markup = markup;
     }
 
     public String getMsg() {
@@ -42,28 +46,52 @@ public class MarkerUpdated extends MarkerComponentMessage {
         this.msg = msg;
     }
 
-    public double getX() {
+    public double[] getX() {
         return x;
     }
 
-    public void setX(double x) {
+    public void setX(double[] x) {
         this.x = x;
     }
 
-    public double getY() {
+    public double[] getY() {
         return y;
     }
 
-    public void setY(double y) {
+    public void setY(double[] y) {
         this.y = y;
     }
 
-    public double getZ() {
+    public double[] getZ() {
         return z;
     }
 
-    public void setZ(double z) {
+    public void setZ(double[] z) {
         this.z = z;
+    }
+
+    public int getWeight() {
+        return weight;
+    }
+
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
+
+    public double getOpacity() {
+        return opacity;
+    }
+
+    public void setOpacity(double opacity) {
+        this.opacity = opacity;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
     }
 
     public String getId() {
@@ -82,14 +110,6 @@ public class MarkerUpdated extends MarkerComponentMessage {
         this.label = label;
     }
 
-    public String getIcon() {
-        return icon;
-    }
-
-    public void setIcon(String icon) {
-        this.icon = icon;
-    }
-
     public String getSet() {
         return set;
     }
@@ -98,28 +118,12 @@ public class MarkerUpdated extends MarkerComponentMessage {
         this.set = set;
     }
 
-    public boolean isMarkup() {
-        return markup;
-    }
-
-    public void setMarkup(boolean markup) {
-        this.markup = markup;
-    }
-
     public String getDesc() {
         return desc;
     }
 
     public void setDesc(String desc) {
         this.desc = desc;
-    }
-
-    public String getDim() {
-        return dim;
-    }
-
-    public void setDim(String dim) {
-        this.dim = dim;
     }
 
     public int getMinZoom() {
@@ -136,5 +140,13 @@ public class MarkerUpdated extends MarkerComponentMessage {
 
     public void setMaxZoom(int maxZoom) {
         this.maxZoom = maxZoom;
+    }
+
+    public boolean isMarkup() {
+        return markup;
+    }
+
+    public void setMarkup(boolean markup) {
+        this.markup = markup;
     }
 }

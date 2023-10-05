@@ -8,7 +8,7 @@ import me.fabrimat.dynmapsync.dynmap.DynmapManager;
 import me.fabrimat.dynmapsync.dynmap.DynmapUtils;
 import me.fabrimat.dynmapsync.dynmap.SourceMap;
 import me.fabrimat.dynmapsync.dynmap.command.sub.SubCommand;
-import me.fabrimat.dynmapsync.dynmap.json.DynmapConfig;
+import me.fabrimat.dynmapsync.dynmap.json.DynmapConfigFile;
 import me.fabrimat.dynmapsync.dynmap.json.config.ConfigMap;
 import me.fabrimat.dynmapsync.dynmap.json.config.ConfigWorld;
 import me.fabrimat.dynmapsync.job.Job;
@@ -74,8 +74,8 @@ public class ConfigSyncSubCommand implements SubCommand {
         Preconditions.checkArgument(destination.getFileType().equals(DynmapJson.FileType.CONFIG), "Destination must be a config file");
 
         DynmapConfigSection config = DynmapSync.getInstance().getMainConfig().getDynmapConfig();
-        DynmapConfig sConfig = (DynmapConfig) source.getDynmapFile();
-        DynmapConfig dConfig = (DynmapConfig) destination.getDynmapFile();
+        DynmapConfigFile sConfig = (DynmapConfigFile) source.getDynmapFile();
+        DynmapConfigFile dConfig = (DynmapConfigFile) destination.getDynmapFile();
 
         List<ConfigWorld> sWorlds = List.of(sConfig.getWorlds());
         List<ConfigWorld> dWorlds = new ArrayList<>(List.of(dConfig.getWorlds()));

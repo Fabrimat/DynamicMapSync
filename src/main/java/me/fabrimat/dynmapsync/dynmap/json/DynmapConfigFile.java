@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import me.fabrimat.dynmapsync.dynmap.json.config.ConfigMap;
 import me.fabrimat.dynmapsync.dynmap.json.config.ConfigWorld;
 
-public class DynmapConfig implements DynmapFile {
+public class DynmapConfigFile implements DynmapFile {
     @SerializedName("updaterate")
     private long updateRate;
     @SerializedName("chatlengthlimit")
@@ -70,7 +70,7 @@ public class DynmapConfig implements DynmapFile {
     @SerializedName("defaultworld")
     private String defaultWorld;
 
-    public DynmapConfig(long updateRate, int chatLengthLimit, long configHash, ConfigWorld[] worlds, ConfigMap[] maps, String spamMessage, String defaultMap, String chatRequiresLoginMessage, String hiddenNameJoinMessage, String title, boolean grayPlayersWhenHidden, String quitMessage, int defaultZoom, boolean allowWebChat, boolean allowChat, boolean sidebarOpened, int webChatInterval, String chatNotAllowedMessage, String coreVersion, String joinMessage, boolean webChatRequiresLogin, String showLayerControl, boolean loginEnabled, boolean loginRequired, int maxCount, String dynmapVersion, String mapTypesMessage, boolean cyrillic, String hiddenNameQuitMessage, boolean jsonFile, String playersMessage, String webPrefix, boolean showPlayerFacesInMenu, String defaultWorld) {
+    public DynmapConfigFile(long updateRate, int chatLengthLimit, long configHash, ConfigWorld[] worlds, ConfigMap[] maps, String spamMessage, String defaultMap, String chatRequiresLoginMessage, String hiddenNameJoinMessage, String title, boolean grayPlayersWhenHidden, String quitMessage, int defaultZoom, boolean allowWebChat, boolean allowChat, boolean sidebarOpened, int webChatInterval, String chatNotAllowedMessage, String coreVersion, String joinMessage, boolean webChatRequiresLogin, String showLayerControl, boolean loginEnabled, boolean loginRequired, int maxCount, String dynmapVersion, String mapTypesMessage, boolean cyrillic, String hiddenNameQuitMessage, boolean jsonFile, String playersMessage, String webPrefix, boolean showPlayerFacesInMenu, String defaultWorld) {
         this.updateRate = updateRate;
         this.chatLengthLimit = chatLengthLimit;
         this.configHash = configHash;
@@ -107,7 +107,7 @@ public class DynmapConfig implements DynmapFile {
         this.defaultWorld = defaultWorld;
     }
 
-    public DynmapConfig() {
+    public DynmapConfigFile() {
 
     }
 

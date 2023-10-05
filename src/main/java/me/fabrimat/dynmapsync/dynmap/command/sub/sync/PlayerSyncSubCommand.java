@@ -7,8 +7,8 @@ import me.fabrimat.dynmapsync.dynmap.DynmapManager;
 import me.fabrimat.dynmapsync.dynmap.DynmapUtils;
 import me.fabrimat.dynmapsync.dynmap.SourceMap;
 import me.fabrimat.dynmapsync.dynmap.command.sub.SubCommand;
-import me.fabrimat.dynmapsync.dynmap.json.DynmapPlayer;
-import me.fabrimat.dynmapsync.dynmap.json.DynmapWorld;
+import me.fabrimat.dynmapsync.dynmap.json.world.DynmapPlayer;
+import me.fabrimat.dynmapsync.dynmap.json.DynmapWorldFile;
 import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.command.CommandExecutor;
 import me.fabrimat.dynmapsync.job.step.Step;
@@ -51,7 +51,7 @@ public class PlayerSyncSubCommand implements SubCommand {
                         sourceMaps.remove(map);
                         DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName);
                         if (sourceJson.getFile().exists()) {
-                            players.addAll(Arrays.stream(((DynmapWorld) sourceJson.getDynmapFile()).getPlayers()).toList());
+                            players.addAll(Arrays.stream(((DynmapWorldFile) sourceJson.getDynmapFile()).getPlayers()).toList());
                         }
                     }
                 }
@@ -61,14 +61,14 @@ public class PlayerSyncSubCommand implements SubCommand {
                 SourceMap sourceMap = entry.getValue();
                 DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName);
                 if (sourceJson.getFile().exists()) {
-                    players.addAll(Arrays.stream(((DynmapWorld) sourceJson.getDynmapFile()).getPlayers()).toList());
+                    players.addAll(Arrays.stream(((DynmapWorldFile) sourceJson.getDynmapFile()).getPlayers()).toList());
                 }
             }
 
             players.forEach(player ->
                     player.setWorld(DynmapUtils.rewriteWorldName(player.getWorld(), config.getWorldRewrites())));
 
-            ((DynmapWorld) destinationJson.getDynmapFile()).setPlayers(players.toArray(new DynmapPlayer[0]));
+            ((DynmapWorldFile) destinationJson.getDynmapFile()).setPlayers(players.toArray(new DynmapPlayer[0]));
             destinationJson.writeFile();
         }
         dynmapManager.setTimestamp("playerSync", Timestamp.from(Instant.now()));

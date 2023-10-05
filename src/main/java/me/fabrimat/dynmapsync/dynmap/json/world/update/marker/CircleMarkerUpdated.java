@@ -1,15 +1,14 @@
-package me.fabrimat.dynmapsync.dynmap.json.update.marker;
+package me.fabrimat.dynmapsync.dynmap.json.world.update.marker;
 
 import com.google.gson.annotations.SerializedName;
 
-public class AreaMarkerUpdated extends MarkerComponentMessage {
+public class CircleMarkerUpdated extends MarkerComponentMessage {
     private String msg;
-    @SerializedName("ytop")
-    private double yTop;
-    @SerializedName("ybottom")
-    private double yBottom;
-    private double[] x;
-    private double[] z;
+    private double x;
+    private double y;
+    private double z;
+    private double xr;
+    private double zr;
     private int weight;
     private double opacity;
     private String color;
@@ -27,13 +26,14 @@ public class AreaMarkerUpdated extends MarkerComponentMessage {
     private int maxZoom;
     private boolean markup;
 
-    public AreaMarkerUpdated(long timestamp, String msg, double yTop, double yBottom, double[] x, double[] z, int weight, double opacity, String color, double fillOpacity, String fillColor, String id, String label, String set, String desc, int minZoom, int maxZoom, boolean markup) {
+    public CircleMarkerUpdated(long timestamp, String msg, double x, double y, double z, double xr, double zr, int weight, double opacity, String color, double fillOpacity, String fillColor, String id, String label, String set, String desc, int minZoom, int maxZoom, boolean markup) {
         super(timestamp);
         this.msg = msg;
-        this.yTop = yTop;
-        this.yBottom = yBottom;
         this.x = x;
+        this.y = y;
         this.z = z;
+        this.xr = xr;
+        this.zr = zr;
         this.weight = weight;
         this.opacity = opacity;
         this.color = color;
@@ -56,36 +56,44 @@ public class AreaMarkerUpdated extends MarkerComponentMessage {
         this.msg = msg;
     }
 
-    public double getyTop() {
-        return yTop;
-    }
-
-    public void setyTop(double yTop) {
-        this.yTop = yTop;
-    }
-
-    public double getyBottom() {
-        return yBottom;
-    }
-
-    public void setyBottom(double yBottom) {
-        this.yBottom = yBottom;
-    }
-
-    public double[] getX() {
+    public double getX() {
         return x;
     }
 
-    public void setX(double[] x) {
+    public void setX(double x) {
         this.x = x;
     }
 
-    public double[] getZ() {
+    public double getY() {
+        return y;
+    }
+
+    public void setY(double y) {
+        this.y = y;
+    }
+
+    public double getZ() {
         return z;
     }
 
-    public void setZ(double[] z) {
+    public void setZ(double z) {
         this.z = z;
+    }
+
+    public double getXr() {
+        return xr;
+    }
+
+    public void setXr(double xr) {
+        this.xr = xr;
+    }
+
+    public double getZr() {
+        return zr;
+    }
+
+    public void setZr(double zr) {
+        this.zr = zr;
     }
 
     public int getWeight() {

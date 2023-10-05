@@ -1,4 +1,4 @@
-package me.fabrimat.dynmapsync.dynmap.json.update;
+package me.fabrimat.dynmapsync.dynmap.json.world.update;
 
 public class ChatMessage extends Update {
     public final String type = "chat";

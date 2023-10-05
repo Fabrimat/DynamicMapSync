@@ -1,11 +1,11 @@
-package me.fabrimat.dynmapsync.dynmap.json.update;
+package me.fabrimat.dynmapsync.dynmap.json.world.update;
 
-public class PlayerQuitMessage extends Update {
-    public final String type = "playerquit";
+public class PlayerJoinMessage extends Update {
+    public final String type = "playerjoin";
     public String playerName;
     public String account;
 
-    public PlayerQuitMessage(long timestamp, String playerName) {
+    public PlayerJoinMessage(long timestamp, String playerName) {
         super(timestamp);
         this.playerName = playerName;
     }

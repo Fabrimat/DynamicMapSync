@@ -1,8 +1,4 @@
-package me.fabrimat.dynmapsync.dynmap.json.update;
-
-import com.google.gson.*;
-
-import java.lang.reflect.Type;
+package me.fabrimat.dynmapsync.dynmap.json.world.update;
 
 public class Update{
     public final String generatedBy = "DynmapSync";

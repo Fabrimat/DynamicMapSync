@@ -3,13 +3,14 @@ package me.fabrimat.dynmapsync.dynmap;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import me.fabrimat.dynmapsync.dynmap.json.DynmapConfig;
+import me.fabrimat.dynmapsync.dynmap.json.DynmapConfigFile;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapFile;
-import me.fabrimat.dynmapsync.dynmap.json.DynmapWorld;
-import me.fabrimat.dynmapsync.dynmap.json.update.ComponentMessage;
-import me.fabrimat.dynmapsync.dynmap.json.update.ComponentMessageAdapter;
-import me.fabrimat.dynmapsync.dynmap.json.update.Update;
-import me.fabrimat.dynmapsync.dynmap.json.update.UpdateTypeAdapter;
+import me.fabrimat.dynmapsync.dynmap.json.DynmapMarkerFile;
+import me.fabrimat.dynmapsync.dynmap.json.DynmapWorldFile;
+import me.fabrimat.dynmapsync.dynmap.json.world.update.ComponentMessage;
+import me.fabrimat.dynmapsync.dynmap.json.world.update.ComponentMessageAdapter;
+import me.fabrimat.dynmapsync.dynmap.json.world.update.Update;
+import me.fabrimat.dynmapsync.dynmap.json.world.update.UpdateTypeAdapter;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -48,17 +49,11 @@ public final class DynmapJson {
         File file = getFile();
         Preconditions.checkState(file.exists(), "File %1 does not exists".replace("%1", file.getAbsolutePath()));
 
-        Class<? extends DynmapFile> clazz = DynmapFile.class;
-        switch (fileType) {
-            case MARKERS:
-                break;
-            case CONFIG:
-                clazz = DynmapConfig.class;
-                break;
-            case WORLD:
-                clazz = DynmapWorld.class;
-                break;
-        }
+        Class<? extends DynmapFile> clazz = switch (fileType) {
+            case MARKERS -> DynmapMarkerFile.class;
+            case CONFIG -> DynmapConfigFile.class;
+            case WORLD -> DynmapWorldFile.class;
+        };
 
         Gson gson = new GsonBuilder()
                 .registerTypeAdapter(Update.class, new UpdateTypeAdapter<>())
@@ -70,17 +65,11 @@ public final class DynmapJson {
     private void createFileIfNotExists() throws IOException {
         File file = getFile();
         if (!file.exists()) {
-            DynmapFile dynmapFile = null;
-            switch (fileType) {
-                case MARKERS:
-                    break;
-                case CONFIG:
-                    dynmapFile = new DynmapConfig();
-                    break;
-                case WORLD:
-                    dynmapFile = new DynmapWorld();
-                    break;
-            }
+            DynmapFile dynmapFile = switch (fileType) {
+                case MARKERS -> new DynmapMarkerFile();
+                case CONFIG -> new DynmapConfigFile();
+                case WORLD -> new DynmapWorldFile();
+            };
 
             Gson gson = new Gson();
             gson.toJson(dynmapFile, new FileWriter(file));

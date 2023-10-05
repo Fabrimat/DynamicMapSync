@@ -1,4 +1,4 @@
-package me.fabrimat.dynmapsync.dynmap.json.update.marker;
+package me.fabrimat.dynmapsync.dynmap.json.world.update.marker;
 
 import com.google.gson.annotations.SerializedName;
 
