@@ -70,7 +70,7 @@ public class JobManager {
     }
 
     private void cancelJob(Job job) {
-        if (job.getScheduleInfo() != null) {
+        if (job.getScheduleInfo() != null && job.getScheduleInfo().getScheduledTask() != null) {
             job.getScheduleInfo().getScheduledTask().cancel();
             job.getScheduleInfo().setScheduledTask(null);
         }
