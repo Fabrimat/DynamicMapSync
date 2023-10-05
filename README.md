@@ -16,6 +16,7 @@ The project is still in development and not ready for production use.
 | Area Marker            | 🛠️          |
 | Circle Marker          | 🛠️          |
 | Poly Line Marker       | 🛠️          |
+| Marker Update          | ❌            |
 | Day/Night              | 🛠️          |
 | Weather                | 🛠️          |
 | Flat view              | 🛠️          |
