@@ -15,3 +15,11 @@ jobs:
             '1':
                 command: "DYNMAP SYNC CONFIG"
                 command-fallback: "LOG Failed to sync config"
+    "Marker Sync":
+        schedule:
+            delay: 0
+            period: 300
+        steps:
+            '1':
+                command: "DYNMAP SYNC MARKERS"
+                command-fallback: "LOG Failed to sync markers"
