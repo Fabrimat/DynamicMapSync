@@ -26,7 +26,7 @@ public final class MainConfig extends ConfigManager {
         this.setThreadPoolSize(getConfiguration().getInt("thread-pool-size", 10));
         this.setRecursiveJobsProtection(getConfiguration().getInt("recursive-jobs-protection", 10));
         this.setUrlTimeout(getConfiguration().getInt("url-timeout", 5000));
-        this.dynmapConfig = new DynmapConfigSection(getConfiguration().getSection("dynmap"));
+        this.setDynmapConfig(new DynmapConfigSection(getConfiguration().getSection("dynmap")));
     }
 
     public int getThreadPoolSize() {
@@ -58,4 +58,7 @@ public final class MainConfig extends ConfigManager {
     }
 
 
+    public void setDynmapConfig(DynmapConfigSection dynmapConfig) {
+        this.dynmapConfig = dynmapConfig;
+    }
 }

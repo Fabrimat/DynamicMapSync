@@ -2,6 +2,7 @@ package me.fabrimat.dynmapsync.dynmap;
 
 import me.fabrimat.dynmapsync.DynmapSync;
 import me.fabrimat.dynmapsync.dynmap.command.DynmapCommand;
+import me.fabrimat.dynmapsync.dynmap.json.config.ConfigMap;
 import me.fabrimat.dynmapsync.job.command.CommandManager;
 
 import java.sql.Timestamp;
@@ -9,6 +10,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.locks.ReentrantLock;
 
 public class DynmapManager {
@@ -16,10 +18,12 @@ public class DynmapManager {
     ReentrantLock worldFileLock = new ReentrantLock();
     ReentrantLock markersFileLock = new ReentrantLock();
     ReentrantLock configFileLock = new ReentrantLock();
+    ReentrantLock tileFilesLock = new ReentrantLock();
 
-    Set<String> worlds = new HashSet<>();
+    final Set<String> worlds = ConcurrentHashMap.newKeySet();
+    final Set<ConfigMap> maps = ConcurrentHashMap.newKeySet();
 
-    Map<String, Timestamp> timestamps = new HashMap<>();
+    final Map<String, Timestamp> timestamps = new ConcurrentHashMap<>();
 
     public void initialize() {
         DynmapSync dynmapSync = DynmapSync.getInstance();
@@ -50,5 +54,13 @@ public class DynmapManager {
 
     public Timestamp getTimestamp(String key) {
         return timestamps.get(key);
+    }
+
+    public Set<ConfigMap> getMaps() {
+        return maps;
+    }
+
+    public ReentrantLock getTileFilesLock() {
+        return tileFilesLock;
     }
 }

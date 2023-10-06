@@ -3,25 +3,32 @@ recursive-jobs-protection: 10
 url-timeout: 5000
 dynmap:
   # Sync mode: "COPY" | "MOVE"
-  sync_mode: "MOVE"
-  world_name_rewrite:
+  sync-mode: "MOVE"
+  world-name-rewrite:
     world1: "world"
     world2: "world"
     world3: "world"
-  source_maps:
+  source-maps:
     server1:
       path: "/path/to/dynmap/web"
-      sync_players: true
-      sync_markers: true
-      sync_tiles: true
-      sync_daytime: true
+      sync-players: true
+      sync-markers: true
+      sync-tiles: true
+      sync-daytime: true
     server2:
       path: "/path/to/dynmap/web"
-      sync_players: true
-      sync_markers: true
-      sync_tiles: true
-      sync_daytime: false
+      sync-players: true
+      sync-markers: true
+      sync-tiles: true
+      sync-daytime: false
   priority:
     - server1
     - server2
   destination: "/path/to/destination/dynmap/web"
+  webp:
+    quality: 75
+    lossless: false
+    cwebp-path: "/usr/bin/cwebp"
+    dwebp-path: "/usr/bin/dwebp"
+  jpeg:
+    quality: 75

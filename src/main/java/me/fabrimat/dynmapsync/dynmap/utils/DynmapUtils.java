@@ -1,4 +1,4 @@
-package me.fabrimat.dynmapsync.dynmap;
+package me.fabrimat.dynmapsync.dynmap.utils;
 
 import java.util.Map;
 

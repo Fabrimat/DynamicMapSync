@@ -4,7 +4,7 @@ import me.fabrimat.dynmapsync.DynmapSync;
 import me.fabrimat.dynmapsync.config.DynmapConfigSection;
 import me.fabrimat.dynmapsync.dynmap.DynmapJson;
 import me.fabrimat.dynmapsync.dynmap.DynmapManager;
-import me.fabrimat.dynmapsync.dynmap.DynmapUtils;
+import me.fabrimat.dynmapsync.dynmap.utils.DynmapUtils;
 import me.fabrimat.dynmapsync.dynmap.SourceMap;
 import me.fabrimat.dynmapsync.dynmap.command.sub.DynmapSubCommand;
 import me.fabrimat.dynmapsync.dynmap.json.world.DynmapPlayer;
