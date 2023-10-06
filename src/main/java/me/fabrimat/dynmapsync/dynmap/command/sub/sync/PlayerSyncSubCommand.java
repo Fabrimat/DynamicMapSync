@@ -6,7 +6,7 @@ import me.fabrimat.dynmapsync.dynmap.DynmapJson;
 import me.fabrimat.dynmapsync.dynmap.DynmapManager;
 import me.fabrimat.dynmapsync.dynmap.DynmapUtils;
 import me.fabrimat.dynmapsync.dynmap.SourceMap;
-import me.fabrimat.dynmapsync.dynmap.command.sub.SubCommand;
+import me.fabrimat.dynmapsync.dynmap.command.sub.DynmapSubCommand;
 import me.fabrimat.dynmapsync.dynmap.json.world.DynmapPlayer;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapWorldFile;
 import me.fabrimat.dynmapsync.job.Job;
@@ -23,7 +23,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
-public class PlayerSyncSubCommand implements SubCommand {
+public class PlayerSyncSubCommand implements DynmapSubCommand {
     @Override
     public boolean execute(Job job, Step step, CommandExecutor command, String[] args) throws Exception {
         DynmapManager dynmapManager = DynmapSync.getInstance().getDynmapManager();
