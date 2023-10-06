@@ -36,9 +36,9 @@ public class ConfigSyncSubCommand implements SubCommand {
         DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(), DynmapJson.FileType.CONFIG, null);
 
         Map<String, SourceMap> sourceMaps = config.getSourceMaps();
-        sourceMaps = sourceMaps.entrySet().stream()
-                .filter(entry -> entry.getValue().syncPlayers())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
+        /*sourceMaps = sourceMaps.entrySet().stream()
+                .filter(entry -> entry.getValue().syncConfig())
+                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));*/
 
         List<String> priority = config.getPriority();
 
