@@ -1,6 +1,7 @@
 package me.fabrimat.dynmapsync.dynmap.command.sub;
 
 import me.fabrimat.dynmapsync.dynmap.command.sub.sync.ConfigSyncSubCommand;
+import me.fabrimat.dynmapsync.dynmap.command.sub.sync.MarkerSyncSubCommand;
 import me.fabrimat.dynmapsync.dynmap.command.sub.sync.PlayerSyncSubCommand;
 import me.fabrimat.dynmapsync.job.Job;
 import me.fabrimat.dynmapsync.job.command.CommandExecutor;
@@ -20,7 +21,7 @@ public class SyncSubCommand implements SubCommand {
             case "TILES":
                 // TODO
             case "MARKERS":
-                // TODO
+                return new MarkerSyncSubCommand().execute(job, step, command, Arrays.copyOfRange(args, 1, args.length-1));
         }
         return false;
     }
