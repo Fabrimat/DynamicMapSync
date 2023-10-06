@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.Instant;
 import java.util.Objects;
 
 public final class DynmapJson {
@@ -77,6 +78,7 @@ public final class DynmapJson {
     }
 
     public void writeFile() throws IOException {
+        dynmapFile.setTimestamp(Instant.now().toEpochMilli());
         File file = getFile();
         Gson gson = new GsonBuilder().create();
         gson.toJson(dynmapFile, new FileWriter(file));
