@@ -79,6 +79,11 @@ public class DynmapSync extends AppServer {
 
         getDynmapManager().initialize();
 
+        if(getMainConfig().isDebug()) {
+            getLogger().setLevel(Level.ALL);
+            getLogger().info("Debug mode enabled");
+        }
+
         setRunning(true);
 
         for (Job job : getJobConfig().getLoadedJobs()) {

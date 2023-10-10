@@ -1,6 +1,7 @@
 package me.fabrimat.dynmapsync.dynmap.command.sub.sync;
 
 import com.google.common.base.Preconditions;
+import me.fabrimat.dynmapsync.AppServer;
 import me.fabrimat.dynmapsync.DynmapSync;
 import me.fabrimat.dynmapsync.config.DynmapConfigSection;
 import me.fabrimat.dynmapsync.dynmap.DynmapJson;
@@ -32,8 +33,11 @@ public class MarkerSyncSubCommand implements DynmapSubCommand {
         }
 
         DynmapConfigSection config = DynmapSync.getInstance().getMainConfig().getDynmapConfig();
-        for (String worldName : dynmapManager.getWorlds()) {
-            DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(), DynmapJson.FileType.MARKERS, DynmapUtils.rewriteWorldName(worldName, config.getWorldRewrites()));
+        for (String worldName : dynmapManager.getWorlds().keySet()) {
+            DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(),
+                    DynmapJson.FileType.MARKERS,
+                    DynmapUtils.rewriteWorldName(worldName, config.getWorldRewrites()),
+                    true);
 
             Map<String, SourceMap> sourceMaps = config.getSourceMaps();
             sourceMaps = sourceMaps.entrySet().stream()
@@ -47,12 +51,14 @@ public class MarkerSyncSubCommand implements DynmapSubCommand {
                     if (sourceMaps.containsKey(map)) {
                         SourceMap sourceMap = sourceMaps.get(map);
                         sourceMaps.remove(map);
-                        DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.MARKERS, worldName);
-                        if (sourceJson.getFile().exists()) {
-                            copyValues(sourceJson, destinationJson);
-                        }
+                        attemptCopy(destinationJson, sourceMap, map, worldName);
                     }
                 }
+            }
+
+            for (Map.Entry<String, SourceMap> entry : sourceMaps.entrySet()) {
+                SourceMap sourceMap = entry.getValue();
+                attemptCopy(destinationJson, sourceMap, entry.getKey(), worldName);
             }
 
             destinationJson.writeFile();
@@ -61,6 +67,17 @@ public class MarkerSyncSubCommand implements DynmapSubCommand {
         dynmapManager.getWorldFileLock().unlock();
 
         return true;
+    }
+
+    private void attemptCopy(DynmapJson destinationJson, SourceMap sourceMap, String sourceName, String worldName) {
+        try {
+            DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.MARKERS, worldName, false);
+            if (sourceJson.getFile().exists()) {
+                copyValues(sourceJson, destinationJson);
+            }
+        } catch (IOException | IllegalStateException e) {
+            AppServer.getInstance().getLogger().warning("Could not copy values from %1 - ".replace("%1", sourceName) + e.getMessage());
+        }
     }
 
     private void copyValues(DynmapJson source, DynmapJson destination) {

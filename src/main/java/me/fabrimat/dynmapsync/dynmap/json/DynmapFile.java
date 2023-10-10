@@ -1,5 +1,7 @@
 package me.fabrimat.dynmapsync.dynmap.json;
 
+import java.time.Instant;
+
 public abstract class DynmapFile {
     private long timestamp;
 
@@ -7,7 +9,9 @@ public abstract class DynmapFile {
         this.timestamp = timestamp;
     }
 
-    public DynmapFile() {}
+    public DynmapFile() {
+        timestamp = Instant.now().toEpochMilli();
+    }
 
     public long getTimestamp() {
         return timestamp;

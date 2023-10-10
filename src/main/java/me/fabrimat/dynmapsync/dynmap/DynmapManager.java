@@ -20,8 +20,7 @@ public class DynmapManager {
     ReentrantLock configFileLock = new ReentrantLock();
     ReentrantLock tileFilesLock = new ReentrantLock();
 
-    final Set<String> worlds = ConcurrentHashMap.newKeySet();
-    final Set<ConfigMap> maps = ConcurrentHashMap.newKeySet();
+    final Map<String, Set<ConfigMap>> worlds = new ConcurrentHashMap<>();
 
     final Map<String, Timestamp> timestamps = new ConcurrentHashMap<>();
 
@@ -44,10 +43,6 @@ public class DynmapManager {
         return configFileLock;
     }
 
-    public Set<String> getWorlds() {
-        return worlds;
-    }
-
     public void setTimestamp(String key, Timestamp timestamp) {
         timestamps.put(key, timestamp);
     }
@@ -56,11 +51,11 @@ public class DynmapManager {
         return timestamps.get(key);
     }
 
-    public Set<ConfigMap> getMaps() {
-        return maps;
-    }
-
     public ReentrantLock getTileFilesLock() {
         return tileFilesLock;
+    }
+
+    public Map<String, Set<ConfigMap>> getWorlds() {
+        return worlds;
     }
 }

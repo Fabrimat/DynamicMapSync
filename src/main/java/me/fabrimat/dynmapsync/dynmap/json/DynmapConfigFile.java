@@ -1,10 +1,12 @@
 package me.fabrimat.dynmapsync.dynmap.json;
 
+import com.google.gson.JsonElement;
 import com.google.gson.annotations.SerializedName;
-import me.fabrimat.dynmapsync.dynmap.json.config.ConfigMap;
 import me.fabrimat.dynmapsync.dynmap.json.config.ConfigWorld;
 
 public class DynmapConfigFile extends DynmapFile {
+
+    private JsonElement components;
     @SerializedName("updaterate")
     private long updateRate;
     @SerializedName("chatlengthlimit")
@@ -12,7 +14,6 @@ public class DynmapConfigFile extends DynmapFile {
     @SerializedName("confighash")
     private long configHash;
     private ConfigWorld[] worlds = {};
-    private ConfigMap[] maps = {};
     @SerializedName("spammessage")
     private String spamMessage;
     @SerializedName("defaultmap")
@@ -70,13 +71,17 @@ public class DynmapConfigFile extends DynmapFile {
     @SerializedName("defaultworld")
     private String defaultWorld;
 
-    public DynmapConfigFile(long timestamp, long updateRate, int chatLengthLimit, long configHash, ConfigWorld[] worlds, ConfigMap[] maps, String spamMessage, String defaultMap, String chatRequiresLoginMessage, String hiddenNameJoinMessage, String title, boolean grayPlayersWhenHidden, String quitMessage, int defaultZoom, boolean allowWebChat, boolean allowChat, boolean sidebarOpened, int webChatInterval, String chatNotAllowedMessage, String coreVersion, String joinMessage, boolean webChatRequiresLogin, String showLayerControl, boolean loginEnabled, boolean loginRequired, int maxCount, String dynmapVersion, String mapTypesMessage, boolean cyrillic, String hiddenNameQuitMessage, boolean jsonFile, String playersMessage, String webPrefix, boolean showPlayerFacesInMenu, String defaultWorld) {
+    public DynmapConfigFile() {
+
+    }
+
+    public DynmapConfigFile(long timestamp, JsonElement components, long updateRate, int chatLengthLimit, long configHash, ConfigWorld[] worlds, String spamMessage, String defaultMap, String chatRequiresLoginMessage, String hiddenNameJoinMessage, String title, boolean grayPlayersWhenHidden, String quitMessage, int defaultZoom, boolean allowWebChat, boolean allowChat, boolean sidebarOpened, int webChatInterval, String chatNotAllowedMessage, String coreVersion, String joinMessage, boolean webChatRequiresLogin, String showLayerControl, boolean loginEnabled, boolean loginRequired, int maxCount, String dynmapVersion, String mapTypesMessage, boolean cyrillic, String hiddenNameQuitMessage, boolean jsonFile, String playersMessage, String webPrefix, boolean showPlayerFacesInMenu, String defaultWorld) {
         super(timestamp);
+        this.components = components;
         this.updateRate = updateRate;
         this.chatLengthLimit = chatLengthLimit;
         this.configHash = configHash;
         this.worlds = worlds;
-        this.maps = maps;
         this.spamMessage = spamMessage;
         this.defaultMap = defaultMap;
         this.chatRequiresLoginMessage = chatRequiresLoginMessage;
@@ -106,10 +111,6 @@ public class DynmapConfigFile extends DynmapFile {
         this.webPrefix = webPrefix;
         this.showPlayerFacesInMenu = showPlayerFacesInMenu;
         this.defaultWorld = defaultWorld;
-    }
-
-    public DynmapConfigFile() {
-
     }
 
     public long getUpdateRate() {
@@ -142,14 +143,6 @@ public class DynmapConfigFile extends DynmapFile {
 
     public void setWorlds(ConfigWorld[] worlds) {
         this.worlds = worlds;
-    }
-
-    public ConfigMap[] getMaps() {
-        return maps;
-    }
-
-    public void setMaps(ConfigMap[] maps) {
-        this.maps = maps;
     }
 
     public String getSpamMessage() {
@@ -382,5 +375,13 @@ public class DynmapConfigFile extends DynmapFile {
 
     public void setDefaultWorld(String defaultWorld) {
         this.defaultWorld = defaultWorld;
+    }
+
+    public JsonElement getComponents() {
+        return components;
+    }
+
+    public void setComponents(JsonElement components) {
+        this.components = components;
     }
 }

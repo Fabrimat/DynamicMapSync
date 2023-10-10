@@ -1,6 +1,7 @@
 package me.fabrimat.dynmapsync.dynmap.command.sub.sync;
 
 import com.google.common.base.Preconditions;
+import me.fabrimat.dynmapsync.AppServer;
 import me.fabrimat.dynmapsync.DynmapSync;
 import me.fabrimat.dynmapsync.config.DynmapConfigSection;
 import me.fabrimat.dynmapsync.dynmap.DynmapJson;
@@ -21,6 +22,8 @@ import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class ConfigSyncSubCommand implements DynmapSubCommand {
@@ -32,43 +35,51 @@ public class ConfigSyncSubCommand implements DynmapSubCommand {
             throw new IOException("Could not lock config file");
         }
         DynmapConfigSection config = DynmapSync.getInstance().getMainConfig().getDynmapConfig();
-        DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(), DynmapJson.FileType.CONFIG, null);
+        DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(), DynmapJson.FileType.CONFIG, null, true);
 
+        ((DynmapConfigFile)destinationJson.getDynmapFile()).setWorlds(new ConfigWorld[]{});
+        dynmapManager.getWorlds().clear();
         Map<String, SourceMap> sourceMaps = config.getSourceMaps();
-        /*sourceMaps = sourceMaps.entrySet().stream()
-                .filter(entry -> entry.getValue().syncConfig())
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));*/
-
         List<String> priority = config.getPriority();
-
         if (!priority.isEmpty()) {
             for (String map : priority) {
                 if (sourceMaps.containsKey(map)) {
                     SourceMap sourceMap = sourceMaps.get(map);
                     sourceMaps.remove(map);
-                    DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.CONFIG, null);
-                    if (sourceJson.getFile().exists()) {
-                        copyValues(sourceJson, destinationJson);
-                    }
+                    attemptCopy(destinationJson, sourceMap, map);
                 }
             }
         }
 
         for (Map.Entry<String, SourceMap> entry : sourceMaps.entrySet()) {
             SourceMap sourceMap = entry.getValue();
-            DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.CONFIG, null);
-            if (sourceJson.getFile().exists()) {
-                copyValues(sourceJson, destinationJson);
-            }
+            attemptCopy(destinationJson, sourceMap, entry.getKey());
         }
-        dynmapManager.getMaps().clear();
-        dynmapManager.getMaps().addAll(List.of(((DynmapConfigFile) destinationJson.getDynmapFile()).getMaps()));
+
+        for (ConfigWorld world : ((DynmapConfigFile) destinationJson.getDynmapFile()).getWorlds()) {
+            Set<ConfigMap> maps = ConcurrentHashMap.newKeySet();
+            if (world.getMaps() != null) {
+                maps.addAll(List.of(world.getMaps()));
+            }
+            dynmapManager.getWorlds().put(world.getName(), maps);
+        }
 
         destinationJson.writeFile();
         dynmapManager.setTimestamp("configSync", Timestamp.from(Instant.now()));
         dynmapManager.getConfigFileLock().unlock();
 
         return true;
+    }
+
+    private void attemptCopy(DynmapJson destinationJson, SourceMap sourceMap, String sourceName) {
+        try {
+            DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.CONFIG, null, false);
+            if (sourceJson.getFile().exists()) {
+                copyValues(sourceJson, destinationJson);
+            }
+        } catch (IOException | IllegalStateException e) {
+            AppServer.getInstance().getLogger().warning("Could not copy values from %1 - ".replace("%1", sourceName) + e.getMessage());
+        }
     }
 
     private void copyValues(DynmapJson source, DynmapJson destination) {
@@ -86,19 +97,27 @@ public class ConfigSyncSubCommand implements DynmapSubCommand {
             sWorld.setName(DynmapUtils.rewriteWorldName(sWorld.getName(), config.getWorldRewrites()));
             if (dWorlds.stream().noneMatch(dWorld -> dWorld.getName().equals(sWorld.getName()))) {
                 dWorlds.add(sWorld);
+            } else {
+                for (ConfigWorld dWorld : dWorlds) {
+                    if (dWorld.getName().equals(sWorld.getName())) {
+                        List<ConfigMap> sMaps = List.of(sWorld.getMaps());
+                        List<ConfigMap> dMaps = new ArrayList<>();
+                        if (dWorld.getMaps() != null) {
+                            dMaps.addAll(List.of(dWorld.getMaps()));
+                        }
+
+                        for (ConfigMap sMap : sMaps) {
+                            if (dMaps.stream().noneMatch(dMap -> dMap.getName().equals(sMap.getName()))) {
+                                dMaps.add(sMap);
+                            }
+                        }
+                        dWorld.setMaps(dMaps.toArray(new ConfigMap[0]));
+                    }
+                }
             }
         }
         dConfig.setWorlds(dWorlds.toArray(new ConfigWorld[0]));
-
-        List<ConfigMap> sMaps = List.of(sConfig.getMaps());
-        List<ConfigMap> dMaps = new ArrayList<>(List.of(dConfig.getMaps()));
-
-        for (ConfigMap sMap : sMaps) {
-            if (dMaps.stream().noneMatch(dMap -> dMap.getName().equals(sMap.getName()))) {
-                dMaps.add(sMap);
-            }
-        }
-        dConfig.setMaps(dMaps.toArray(new ConfigMap[0]));
+        dConfig.setComponents(sConfig.getComponents());
 
         dConfig.setUpdateRate(sConfig.getUpdateRate());
         dConfig.setChatLengthLimit(sConfig.getChatLengthLimit());

@@ -1,6 +1,7 @@
 thread-pool-size: 5
 recursive-jobs-protection: 10
 url-timeout: 5000
+debug: false
 dynmap:
   # Sync mode: "COPY" | "MOVE"
   sync-mode: "MOVE"

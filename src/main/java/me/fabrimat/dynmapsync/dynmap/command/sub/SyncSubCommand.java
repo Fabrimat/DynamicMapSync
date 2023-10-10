@@ -1,5 +1,6 @@
 package me.fabrimat.dynmapsync.dynmap.command.sub;
 
+import com.google.common.base.Preconditions;
 import me.fabrimat.dynmapsync.dynmap.command.sub.sync.ConfigSyncSubCommand;
 import me.fabrimat.dynmapsync.dynmap.command.sub.sync.MarkerSyncSubCommand;
 import me.fabrimat.dynmapsync.dynmap.command.sub.sync.PlayerSyncSubCommand;
@@ -14,16 +15,21 @@ import java.util.Locale;
 public class SyncSubCommand implements DynmapSubCommand {
     @Override
     public boolean execute(Job job, Step step, CommandExecutor command, String[] args) throws Exception {
-        switch (args[1].toUpperCase(Locale.ROOT)) {
-            case "PLAYERS":
-                return new PlayerSyncSubCommand().execute(job, step, command, Arrays.copyOfRange(args, 1, args.length-1));
-            case "CONFIG":
-                return new ConfigSyncSubCommand().execute(job, step, command, Arrays.copyOfRange(args, 1, args.length-1));
-            case "TILES":
-                return new TileSyncSubCommand().execute(job, step, command, Arrays.copyOfRange(args, 1, args.length-1));
-            case "MARKERS":
-                return new MarkerSyncSubCommand().execute(job, step, command, Arrays.copyOfRange(args, 1, args.length-1));
+        Preconditions.checkArgument(args != null && args.length > 0, "Not enough arguments");
+        String subCommand = args[0].toUpperCase(Locale.ROOT);
+        if (args.length > 1) {
+            args = Arrays.copyOfRange(args, 1, args.length);
         }
-        return false;
+        return switch (subCommand) {
+            case "PLAYERS" ->
+                    new PlayerSyncSubCommand().execute(job, step, command, args);
+            case "CONFIG" ->
+                    new ConfigSyncSubCommand().execute(job, step, command, args);
+            case "TILES" ->
+                    new TileSyncSubCommand().execute(job, step, command, args);
+            case "MARKERS" ->
+                    new MarkerSyncSubCommand().execute(job, step, command, args);
+            default -> false;
+        };
     }
 }

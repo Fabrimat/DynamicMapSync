@@ -3,6 +3,8 @@ package me.fabrimat.dynmapsync.dynmap;
 import com.google.common.base.Preconditions;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonNull;
+import me.fabrimat.dynmapsync.AppServer;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapConfigFile;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapFile;
 import me.fabrimat.dynmapsync.dynmap.json.DynmapMarkerFile;
@@ -12,11 +14,8 @@ import me.fabrimat.dynmapsync.dynmap.json.world.update.ComponentMessageAdapter;
 import me.fabrimat.dynmapsync.dynmap.json.world.update.Update;
 import me.fabrimat.dynmapsync.dynmap.json.world.update.UpdateTypeAdapter;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
+import java.io.*;
+import java.lang.reflect.Type;
 import java.nio.file.Path;
 import java.time.Instant;
 import java.util.Objects;
@@ -28,7 +27,7 @@ public final class DynmapJson {
 
     private DynmapFile dynmapFile;
 
-    public DynmapJson(Path dynmapPath, FileType fileType, String world) throws IOException {
+    public DynmapJson(Path dynmapPath, FileType fileType, String world, boolean shouldCreate) throws IOException {
         this.dynmapPath = dynmapPath;
         this.fileType = fileType;
 
@@ -37,20 +36,26 @@ public final class DynmapJson {
             world = "";
         }
         this.world = world;
-        createFileIfNotExists();
+        try {
+            if (shouldCreate) createFileIfNotExists();
+        } catch (IOException e) {
+            AppServer.getInstance().getLogger().warning("Could not create file %1 - ".replace("%1", getFile().getAbsolutePath()) + e.getMessage());
+        }
         loadJsonFile();
     }
 
     public File getFile() {
-        Path path = dynmapPath.resolve(fileType.getFilePath().replace("%1", world));
+        Path path = dynmapPath.resolve(fileType.getFilePath().replace("%1", world)).toAbsolutePath();
+        if (AppServer.getInstance().getMainConfig().isDebug())
+            AppServer.getInstance().getLogger().info(String.format("Getting file %s from %s", fileType, path));
         return path.toFile();
     }
 
     private void loadJsonFile() throws IOException {
-        File file = getFile();
+        File file = getFile().getAbsoluteFile();
         Preconditions.checkState(file.exists(), "File %1 does not exists".replace("%1", file.getAbsolutePath()));
 
-        Class<? extends DynmapFile> clazz = switch (fileType) {
+        Type type = switch (fileType) {
             case MARKERS -> DynmapMarkerFile.class;
             case CONFIG -> DynmapConfigFile.class;
             case WORLD -> DynmapWorldFile.class;
@@ -60,28 +65,49 @@ public final class DynmapJson {
                 .registerTypeAdapter(Update.class, new UpdateTypeAdapter<>())
                 .registerTypeAdapter(ComponentMessage.class, new ComponentMessageAdapter<>())
                 .create();
-        this.dynmapFile = gson.fromJson(Files.newBufferedReader(file.toPath(), Charset.defaultCharset()), clazz);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        this.dynmapFile = gson.fromJson(br, type);
+        br.close();
+        Preconditions.checkState(dynmapFile != null, "File %1 is empty".replace("%1", file.getAbsolutePath()));
     }
 
     private void createFileIfNotExists() throws IOException {
-        File file = getFile();
-        if (!file.exists()) {
+        File file = getFile().getAbsoluteFile();
+        if (!file.exists() || file.length() == 0) {
+            file.getParentFile().getAbsoluteFile().mkdirs();
+            boolean debug = AppServer.getInstance().getMainConfig().isDebug();
+            if (debug)
+                AppServer.getInstance().getLogger().info("Creating file %1".replace("%1", file.getAbsolutePath()));
             DynmapFile dynmapFile = switch (fileType) {
                 case MARKERS -> new DynmapMarkerFile();
                 case CONFIG -> new DynmapConfigFile();
                 case WORLD -> new DynmapWorldFile();
             };
 
-            Gson gson = new Gson();
-            gson.toJson(dynmapFile, new FileWriter(file));
+            GsonBuilder gsonBuilder = new GsonBuilder();
+            if (debug) {
+                gsonBuilder.setPrettyPrinting();
+            }
+            Gson gson = gsonBuilder.create();
+            BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+            gson.toJson(dynmapFile, writer);
+            writer.close();
+            if (debug)
+                AppServer.getInstance().getLogger().info("File %1 created".replace("%1", file.getAbsolutePath()));
         }
     }
 
     public void writeFile() throws IOException {
         dynmapFile.setTimestamp(Instant.now().toEpochMilli());
         File file = getFile();
-        Gson gson = new GsonBuilder().create();
-        gson.toJson(dynmapFile, new FileWriter(file));
+        GsonBuilder gsonBuilder = new GsonBuilder().serializeNulls();
+        if (AppServer.getInstance().getMainConfig().isDebug()) {
+            gsonBuilder.setPrettyPrinting();
+        }
+        Gson gson = gsonBuilder.create();
+        BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+        gson.toJson(dynmapFile, writer);
+        writer.close();
     }
 
     public Path getDynmapPath() {
@@ -127,8 +153,7 @@ public final class DynmapJson {
     public enum FileType {
         CONFIG("standalone/dynmap_config.json"),
         MARKERS("tiles/_markers_/marker_%1.json"),
-        WORLD("standalone/dynmap_%1.json"),
-        ;
+        WORLD("standalone/dynmap_%1.json");
 
         private final String filePath;
 

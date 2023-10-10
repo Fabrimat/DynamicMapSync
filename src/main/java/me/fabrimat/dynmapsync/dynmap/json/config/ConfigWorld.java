@@ -12,16 +12,19 @@ public class ConfigWorld {
     private String name;
     private String title;
     private Center center;
+
+    private ConfigMap[] maps;
     @SerializedName("worldheight")
     private int worldHeight;
 
-    public ConfigWorld(int seaLevel, boolean protectedWorld, int extraZoomOut, String name, String title, Center center, int worldHeight) {
+    public ConfigWorld(int seaLevel, boolean protectedWorld, int extraZoomOut, String name, String title, Center center, ConfigMap[] maps, int worldHeight) {
         this.seaLevel = seaLevel;
         this.protectedWorld = protectedWorld;
         this.extraZoomOut = extraZoomOut;
         this.name = name;
         this.title = title;
         this.center = center;
+        this.maps = maps;
         this.worldHeight = worldHeight;
     }
 
@@ -55,6 +58,14 @@ public class ConfigWorld {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public ConfigMap[] getMaps() {
+        return maps;
+    }
+
+    public void setMaps(ConfigMap[] maps) {
+        this.maps = maps;
     }
 
     public String getTitle() {

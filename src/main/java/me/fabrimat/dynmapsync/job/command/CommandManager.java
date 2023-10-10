@@ -9,6 +9,7 @@ import me.fabrimat.dynmapsync.job.step.Step;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
+import java.util.logging.Level;
 
 public class CommandManager {
 
@@ -64,7 +65,10 @@ public class CommandManager {
                 boolean success;
                 try {
                     success = executeCommand(null, null, command);
-                } catch (Exception ignored) {
+                } catch (Exception e) {
+                    if (AppServer.getInstance().getMainConfig().isDebug()) {
+                        AppServer.getInstance().getLogger().log(Level.SEVERE, "Error executing command " + command.getCommandName(), e);
+                    }
                     success = false;
                 }
                 AppServer.getInstance().getLogger().info("Success: " + success);

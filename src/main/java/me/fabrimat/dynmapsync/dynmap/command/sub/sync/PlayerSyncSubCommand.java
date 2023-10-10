@@ -33,8 +33,11 @@ public class PlayerSyncSubCommand implements DynmapSubCommand {
         }
 
         DynmapConfigSection config = DynmapSync.getInstance().getMainConfig().getDynmapConfig();
-        for (String worldName : dynmapManager.getWorlds()) {
-            DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(), DynmapJson.FileType.WORLD, DynmapUtils.rewriteWorldName(worldName, config.getWorldRewrites()));
+        for (String worldName : dynmapManager.getWorlds().keySet()) {
+            DynmapJson destinationJson = new DynmapJson(config.getDestinationPath(),
+                    DynmapJson.FileType.WORLD,
+                    DynmapUtils.rewriteWorldName(worldName, config.getWorldRewrites()),
+                    true);
 
             Map<String, SourceMap> sourceMaps = config.getSourceMaps();
             sourceMaps = sourceMaps.entrySet().stream()
@@ -49,7 +52,7 @@ public class PlayerSyncSubCommand implements DynmapSubCommand {
                     if (sourceMaps.containsKey(map)) {
                         SourceMap sourceMap = sourceMaps.get(map);
                         sourceMaps.remove(map);
-                        DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName);
+                        DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName, false);
                         if (sourceJson.getFile().exists()) {
                             players.addAll(Arrays.stream(((DynmapWorldFile) sourceJson.getDynmapFile()).getPlayers()).toList());
                         }
@@ -59,7 +62,7 @@ public class PlayerSyncSubCommand implements DynmapSubCommand {
 
             for (Map.Entry<String, SourceMap> entry : sourceMaps.entrySet()) {
                 SourceMap sourceMap = entry.getValue();
-                DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName);
+                DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName, false);
                 if (sourceJson.getFile().exists()) {
                     players.addAll(Arrays.stream(((DynmapWorldFile) sourceJson.getDynmapFile()).getPlayers()).toList());
                 }

@@ -23,13 +23,15 @@ public class ConfigMap {
     @SerializedName("mapzoomout")
     private int mapZoomOut;
     private String perspective;
+    @SerializedName("worldtomap")
     private double[] worldToMap;
-    private int inclination;
+    private float inclination;
     @SerializedName("image-format")
     private String imageFormat;
     private String lighting;
     @SerializedName("bigmap")
     private boolean bigMap;
+    @SerializedName("maptoworld")
     private double[] mapToWorld;
     private String background;
     @SerializedName("boostzoom")
@@ -188,11 +190,11 @@ public class ConfigMap {
         this.worldToMap = worldToMap;
     }
 
-    public int getInclination() {
+    public float getInclination() {
         return inclination;
     }
 
-    public void setInclination(int inclination) {
+    public void setInclination(float inclination) {
         this.inclination = inclination;
     }
 

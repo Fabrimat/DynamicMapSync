@@ -44,7 +44,7 @@ public class DynmapConfigSection {
             sourceMaps.put(key, map);
         }
         priority = config.getStringList("priority");
-        destinationPath = Paths.get(config.getString("destination-path"));
+        destinationPath = Paths.get(config.getString("destination"));
         Preconditions.checkNotNull(destinationPath, "Destination path cannot be null");
         this.setCwebpPath(config.getString("webp.cwebp-path", "/usr/bin/cwebp"));
         this.setDwebpPath(config.getString("webp.dwebp-path", "/usr/bin/dwebp"));
