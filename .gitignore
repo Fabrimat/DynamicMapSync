@@ -2,7 +2,7 @@
 *.class
 
 # Log file
-*.log
+*.log*
 
 # BlueJ files
 *.ctxt
@@ -33,3 +33,7 @@ target/
 # Intellij Files
 .idea/
 dynmapsync.log.0
+
+jobs.yml
+
+config.yml
