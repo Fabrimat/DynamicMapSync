@@ -1,4 +1,4 @@
-# DynmapSync
+# DynamicMapSync
 Merge your Dynmap from multiple servers into one.
 
 **The project is still in development and not ready for production use.**
