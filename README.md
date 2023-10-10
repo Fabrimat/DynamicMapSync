@@ -21,11 +21,11 @@ Merge your Dynmap from multiple servers into one.
 | Tiles Real Time Update  | 🛠️       |                            |
 | Day/Night               | 🛠️       |                            |
 | Weather                 | 🛠️       |                            |
-| Flat view               | 🛠️       |                            |
-| Surface view            | ❌         | Help needed                |
-| WebP Images             | 🛠️       | Requires cwebp and dwebp   |
-| JPEG Images             | 🛠️       |                            |
-| PNG Images              | 🛠️       |                            |
+| Flat view               | ✅️        |                            |
+| Surface view            | ⚠️        | Unstable                   |
+| WebP Images             | ✅️        | Requires cwebp and dwebp   |
+| JPEG Images             | ✅️        |                            |
+| PNG Images              | ✅         |                            |
 | FileTree Storage        | ✅         |                            |
 | MySQL Storage           | ❌         |                            |
 | SQLite Storage          | ❌         |                            |
@@ -33,5 +33,6 @@ Merge your Dynmap from multiple servers into one.
 
 ## Legend
 ✅ = Supported
+⚠️ = Supported, but unstable
 🛠️ = In Development
 ❌ = Not Supported
