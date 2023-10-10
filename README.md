@@ -17,7 +17,7 @@ Merge your Dynmap from multiple servers into one.
 | Area Marker             | ✅️        |                            |
 | Circle Marker           | ✅️        |                            |
 | Poly Line Marker        | ✅️        |                            |
-| Marker Real Time Update | ❌         | Needs a Dynmap update      |
+| Marker Real Time Update | ❌         |                            |
 | Tiles Real Time Update  | 🛠️       |                            |
 | Day/Night               | 🛠️       |                            |
 | Weather                 | 🛠️       |                            |
@@ -32,7 +32,7 @@ Merge your Dynmap from multiple servers into one.
 | S3 Storage              | ❌         |                            |
 
 ## Legend
-✅ = Supported
-⚠️ = Supported, but unstable
-🛠️ = In Development
+✅ = Supported <br>
+⚠️ = Supported, but unstable <br>
+🛠️ = In Development <br>
 ❌ = Not Supported
