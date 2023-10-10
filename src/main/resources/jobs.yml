@@ -17,9 +17,17 @@ jobs:
                 command-fallback: "LOG Failed to sync config"
     "Marker Sync":
         schedule:
-            delay: 0
+            delay: 60
             period: 300
         steps:
             '1':
                 command: "DYNMAP SYNC MARKERS"
                 command-fallback: "LOG Failed to sync markers"
+    "Tiles Sync":
+        schedule:
+            delay: 80
+            period: 300
+        steps:
+            '1':
+                command: "DYNMAP SYNC TILES"
+                command-fallback: "LOG Failed to sync tiles"
