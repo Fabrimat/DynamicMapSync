@@ -12,12 +12,12 @@ public class Utils {
             return versionParts.length == 1
                     && targetMinor == -1
                     && targetBuild == -1
-                    && parseInt(versionParts[0], -1) >= targetMajor;//we only have a major version and thats ok
+                    && parseInt(versionParts[0], 10) >= targetMajor;//we only have a major version and thats ok
 //can not evaluate
         }
-        int major = parseInt(versionParts[0], -1);
-        int minor = parseInt(versionParts[1], -1);
-        int build = parseInt(versionParts[2], -1);
+        int major = parseInt(versionParts[0], 10);
+        int minor = parseInt(versionParts[1], 10);
+        int build = parseInt(versionParts[2], 10);
         return major != -1 && major >= targetMajor &&
                 minor != -1 && minor >= targetMinor &&
                 build != -1 && build >= targetBuild;
