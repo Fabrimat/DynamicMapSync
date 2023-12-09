@@ -34,7 +34,7 @@ public class DynmapConfigFile extends DynmapFile {
     @SerializedName("allowchat")
     private boolean allowChat;
     @SerializedName("sidebaropened")
-    private boolean sidebarOpened;
+    private String sidebarOpened;
     @SerializedName("webchat-interval")
     private int webChatInterval;
     @SerializedName("msg-chatnotallowed")
@@ -75,7 +75,7 @@ public class DynmapConfigFile extends DynmapFile {
 
     }
 
-    public DynmapConfigFile(long timestamp, JsonElement components, long updateRate, int chatLengthLimit, long configHash, ConfigWorld[] worlds, String spamMessage, String defaultMap, String chatRequiresLoginMessage, String hiddenNameJoinMessage, String title, boolean grayPlayersWhenHidden, String quitMessage, int defaultZoom, boolean allowWebChat, boolean allowChat, boolean sidebarOpened, int webChatInterval, String chatNotAllowedMessage, String coreVersion, String joinMessage, boolean webChatRequiresLogin, String showLayerControl, boolean loginEnabled, boolean loginRequired, int maxCount, String dynmapVersion, String mapTypesMessage, boolean cyrillic, String hiddenNameQuitMessage, boolean jsonFile, String playersMessage, String webPrefix, boolean showPlayerFacesInMenu, String defaultWorld) {
+    public DynmapConfigFile(long timestamp, JsonElement components, long updateRate, int chatLengthLimit, long configHash, ConfigWorld[] worlds, String spamMessage, String defaultMap, String chatRequiresLoginMessage, String hiddenNameJoinMessage, String title, boolean grayPlayersWhenHidden, String quitMessage, int defaultZoom, boolean allowWebChat, boolean allowChat, String sidebarOpened, int webChatInterval, String chatNotAllowedMessage, String coreVersion, String joinMessage, boolean webChatRequiresLogin, String showLayerControl, boolean loginEnabled, boolean loginRequired, int maxCount, String dynmapVersion, String mapTypesMessage, boolean cyrillic, String hiddenNameQuitMessage, boolean jsonFile, String playersMessage, String webPrefix, boolean showPlayerFacesInMenu, String defaultWorld) {
         super(timestamp);
         this.components = components;
         this.updateRate = updateRate;
@@ -225,11 +225,11 @@ public class DynmapConfigFile extends DynmapFile {
         this.allowChat = allowChat;
     }
 
-    public boolean isSidebarOpened() {
+    public String isSidebarOpened() {
         return sidebarOpened;
     }
 
-    public void setSidebarOpened(boolean sidebarOpened) {
+    public void setSidebarOpened(String sidebarOpened) {
         this.sidebarOpened = sidebarOpened;
     }
 
