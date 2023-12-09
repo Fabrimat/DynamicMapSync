@@ -2,6 +2,7 @@ package me.fabrimat.dynamicmapsync.dynmap.json;
 
 import me.fabrimat.dynamicmapsync.dynmap.json.marker.DynmapMarkerSet;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class DynmapMarkerFile extends DynmapFile {
@@ -21,5 +22,11 @@ public class DynmapMarkerFile extends DynmapFile {
 
     public void setSets(Map<String, DynmapMarkerSet> sets) {
         this.sets = sets;
+    }
+
+    public void initSets() {
+        if (sets == null) {
+            sets = new HashMap<>();
+        }
     }
 }

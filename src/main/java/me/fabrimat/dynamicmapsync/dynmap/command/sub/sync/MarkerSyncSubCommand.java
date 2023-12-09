@@ -88,6 +88,9 @@ public class MarkerSyncSubCommand implements DynmapSubCommand {
         DynmapMarkerFile sConfig = (DynmapMarkerFile) source.getDynmapFile();
         DynmapMarkerFile dConfig = (DynmapMarkerFile) destination.getDynmapFile();
 
+        sConfig.initSets();
+        dConfig.initSets();
+
         sConfig.getSets().forEach((setKey, setValue) -> {
             setValue.getAreas().forEach((key, area) -> area.setWorld(DynmapUtils.rewriteWorldName(area.getWorld(), config.getWorldRewrites())));
             setValue.getLines().forEach((key, line) -> line.setWorld(DynmapUtils.rewriteWorldName(line.getWorld(), config.getWorldRewrites())));
