@@ -14,12 +14,15 @@ import me.fabrimat.dynamicmapsync.job.step.Step;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.nio.file.*;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Level;
 
 public class TileSyncSubCommand implements DynmapSubCommand {
     @Override
@@ -56,6 +59,8 @@ public class TileSyncSubCommand implements DynmapSubCommand {
         return true;
     }
     private void copyTiles(String world, String sourceName, SourceMap source, ConfigMap map, Path destination) throws IOException {
+        boolean debug = DynamicMapSync.getInstance().getMainConfig().isDebug();
+
         Path sourcePath = source.path().resolve("tiles");
         Path destinationPath = destination.resolve("tiles");
 
@@ -71,17 +76,31 @@ public class TileSyncSubCommand implements DynmapSubCommand {
 
         Files.walkFileTree(mapPath, new SimpleFileVisitor<>() {
             @Override
+            public FileVisitResult preVisitDirectory(Path filePath, BasicFileAttributes attrs) throws IOException {
+                Path relativePath = mapPath.relativize(filePath);
+                Path destinationFilePath = destinationPath.resolve(world).resolve(map.getPrefix()).resolve(relativePath);
+
+                if (debug) {
+                    DynamicMapSync.getInstance().getLogger().log(Level.INFO, "Processing directory " + filePath);
+                }
+                if (!Files.exists(destinationFilePath)) {
+                    Files.createDirectories(destinationFilePath);
+                    if (debug) {
+                        DynamicMapSync.getInstance().getLogger().log(Level.INFO, "Created new directory " + destinationFilePath);
+                    }
+                }
+
+                return FileVisitResult.CONTINUE;
+            }
+            @Override
             public FileVisitResult visitFile(Path filePath, BasicFileAttributes attrs) throws IOException {
                 Path relativePath = mapPath.relativize(filePath);
                 Path destinationFilePath = destinationPath.resolve(world).resolve(map.getPrefix()).resolve(relativePath);
 
-                if (filePath.toFile().isDirectory()) {
-                    if (!Files.exists(destinationFilePath)) {
-                        Files.createDirectories(destinationFilePath);
-                    }
-                } else {
-                    processImages(filePath, destinationFilePath, sourceName);
+                if (debug) {
+                    DynamicMapSync.getInstance().getLogger().log(Level.INFO, "Processing image " + filePath);
                 }
+                processImages(filePath, destinationFilePath, sourceName);
 
                 return FileVisitResult.CONTINUE;
             }
@@ -96,11 +115,14 @@ public class TileSyncSubCommand implements DynmapSubCommand {
             BufferedImage bottomImg = ImageUtils.loadImage(destination);
 
             List<String> priority = config.getPriority();
-
-            Object destOrigin = Files.getAttribute(destination, "user.dynamicmapsync.source");
+            Object destOrigin = null;
+            try {
+                destOrigin = Files.getAttribute(destination, "user:dynamicmapsync.source");
+            } catch (IOException ignored) {
+            }
             if (destOrigin != null) {
                 String destOriginValue = destOrigin.toString();
-                if (priority.indexOf(sourceName) > priority.indexOf(destOriginValue)) {
+                if (priority.indexOf(sourceName) >= priority.indexOf(destOriginValue)) {
                     BufferedImage tmp = topImg;
                     topImg = bottomImg;
                     bottomImg = tmp;
@@ -121,6 +143,10 @@ public class TileSyncSubCommand implements DynmapSubCommand {
                 Files.move(source, destination);
             }
         }
-        Files.setAttribute(destination, "user.dynamicmapsync.source", sourceName);
+
+        try {
+            Files.setAttribute(destination, "user:dynamicmapsync.source", ByteBuffer.wrap(sourceName.getBytes(Charset.defaultCharset())));
+        } catch (IOException ignored) {
+        }
     }
 }
