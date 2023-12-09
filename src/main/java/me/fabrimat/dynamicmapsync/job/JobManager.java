@@ -9,6 +9,7 @@ import me.fabrimat.dynamicmapsync.scheduler.Scheduler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.TimeUnit;
 
 public class JobManager {
@@ -16,7 +17,7 @@ public class JobManager {
     private final Map<String, Job> registeredJobs;
 
     public JobManager() {
-        this.registeredJobs = new HashMap<>();
+        this.registeredJobs = new ConcurrentHashMap<>();
     }
 
     public void registerJob(Job job) {
