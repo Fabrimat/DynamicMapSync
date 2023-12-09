@@ -55,6 +55,7 @@ public class PlayerSyncSubCommand implements DynmapSubCommand {
                         DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName, false);
                         if (sourceJson.getFile().exists()) {
                             players.addAll(Arrays.stream(((DynmapWorldFile) sourceJson.getDynmapFile()).getPlayers()).toList());
+                            ((DynmapWorldFile) destinationJson.getDynmapFile()).setConfigHash(((DynmapWorldFile) sourceJson.getDynmapFile()).getConfigHash());
                         }
                     }
                 }
@@ -65,12 +66,13 @@ public class PlayerSyncSubCommand implements DynmapSubCommand {
                 DynmapJson sourceJson = new DynmapJson(sourceMap.path(), DynmapJson.FileType.WORLD, worldName, false);
                 if (sourceJson.getFile().exists()) {
                     players.addAll(Arrays.stream(((DynmapWorldFile) sourceJson.getDynmapFile()).getPlayers()).toList());
+
+                    ((DynmapWorldFile) destinationJson.getDynmapFile()).setConfigHash(((DynmapWorldFile) sourceJson.getDynmapFile()).getConfigHash());
                 }
             }
 
             players.forEach(player ->
                     player.setWorld(DynmapUtils.rewriteWorldName(player.getWorld(), config.getWorldRewrites())));
-
             ((DynmapWorldFile) destinationJson.getDynmapFile()).setPlayers(players.toArray(new DynmapPlayer[0]));
             destinationJson.writeFile();
         }
