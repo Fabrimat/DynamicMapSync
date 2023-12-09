@@ -64,7 +64,7 @@ public class MarkerSyncSubCommand implements DynmapSubCommand {
             destinationJson.writeFile();
         }
         dynmapManager.setTimestamp("markersSync", Timestamp.from(Instant.now()));
-        dynmapManager.getWorldFileLock().unlock();
+        dynmapManager.getMarkersFileLock().unlock();
 
         return true;
     }
