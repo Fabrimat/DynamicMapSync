@@ -62,7 +62,7 @@ public class DynmapConfigSection {
     }
 
     public Map<String, SourceMap> getSourceMaps() {
-        return sourceMaps;
+        return new HashMap<>(sourceMaps);
     }
 
     public List<String> getPriority() {
