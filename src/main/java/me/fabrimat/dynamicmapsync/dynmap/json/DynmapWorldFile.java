@@ -12,7 +12,7 @@ public class DynmapWorldFile extends DynmapFile {
     private boolean isThundering;
     @SerializedName("servertime")
     private long serverTime;
-    @SerializedName("configHash")
+    @SerializedName("confighash")
     private long configHash;
     private Update[] updates = {};
 
